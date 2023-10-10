@@ -34,8 +34,6 @@ export async function loginUserController(req: Request, res: Response) {
     secure: true,
     httpOnly: true,
     expires: expireDate,
-    sameSite: 'lax',
-    path: '/',
   })
 
   res.status(200).json({

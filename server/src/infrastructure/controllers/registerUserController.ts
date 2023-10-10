@@ -36,8 +36,6 @@ export async function registerUserController(req: Request, res: Response) {
     secure: true,
     httpOnly: true,
     expires: expireDate,
-    sameSite: 'lax',
-    path: '/',
   })
   res.status(201).json({
     token,

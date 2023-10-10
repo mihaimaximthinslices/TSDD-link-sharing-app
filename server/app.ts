@@ -7,26 +7,18 @@ import { expressjwt } from 'express-jwt'
 const app = express()
 import cors from 'cors'
 import cookies from 'cookie-parser'
+
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use(cookies())
 
-if (process.env.ENV === 'DEV') {
-  app.use(
+app.use(
     cors({
-      origin: 'http://localhost:3000',
+      origin: process.env.HOST,
       credentials: true,
     }),
-  )
-} else {
-  app.use(
-    cors({
-      origin: 'https://tsdd-link-sharing-app-fe.vercel.app',
-      credentials: true,
-    }),
-  )
-}
+)
 
 app.use(
   expressjwt({
@@ -41,10 +33,11 @@ app.use(
       }
       return
     },
-  }).unless({ path: ['/login', '/register'] }),
+  }).unless({ path: ['/api/login', '/api/register'] }),
 )
 
 app.use(function (err: Error, req: express.Request, res: express.Response, next: express.NextFunction) {
+  console.log(err)
   if (err.name === 'UnauthorizedError') {
     res.status(401).send({
       message: 'Unauthorized',
