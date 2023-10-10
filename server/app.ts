@@ -1,5 +1,7 @@
 import express from 'express'
 import router from './router'
+import 'dotenv/config'
+
 import bodyParser from 'body-parser'
 import { expressjwt } from 'express-jwt'
 const app = express()

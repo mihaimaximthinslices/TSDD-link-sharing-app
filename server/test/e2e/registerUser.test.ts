@@ -1,5 +1,5 @@
 import { expect, describe, it, beforeEach, beforeAll } from 'vitest'
-import app from '../../api/app'
+import app from '../../../server/app'
 import request from 'supertest'
 import { prismaUserRepository } from '../../src/infrastructure/repositories/PrismaUserRepository'
 

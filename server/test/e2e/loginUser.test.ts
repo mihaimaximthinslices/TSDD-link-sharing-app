@@ -1,5 +1,5 @@
 import { expect, describe, it, beforeEach } from 'vitest'
-import app from '../../api/app'
+import app from "../../../server/app"
 import request from 'supertest'
 
 describe('POST /login', () => {
