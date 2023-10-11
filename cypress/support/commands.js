@@ -23,3 +23,13 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+
+Cypress.Commands.add('login', (email, password)=> {
+    cy.request('POST', "http://localhost:3001/api/login", {
+        email,
+        password
+    }).then((r) => {
+        expect(r.status).to.eq(200)
+    })
+})

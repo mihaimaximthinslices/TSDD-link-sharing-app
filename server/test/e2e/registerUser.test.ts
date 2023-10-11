@@ -3,7 +3,7 @@ import app from '../../../server/app'
 import request from 'supertest'
 import { prismaUserRepository } from '../../src/infrastructure/repositories/PrismaUserRepository'
 
-describe('POST /register', () => {
+describe('POST /api/register', () => {
   beforeAll(async () => {
     //clear any old users
     const oldUser = await prismaUserRepository.getByEmail('mihai.maximfii@gmail.com')
@@ -47,7 +47,7 @@ describe('POST /register', () => {
     ]
 
     it.each(badCredentials)('should return 400 status if %s', async (badCredential) => {
-      await request(app).post('/register').send(badCredential).expect(400)
+      await request(app).post('/api/register').send(badCredential).expect(400)
     })
   })
 
@@ -59,7 +59,7 @@ describe('POST /register', () => {
 
     describe('given the email is already in use', () => {
       it('should return 409 status', async () => {
-        await request(app).post('/register').send(credentials).expect(409)
+        await request(app).post('/api/register').send(credentials).expect(409)
       })
     })
 
@@ -69,7 +69,7 @@ describe('POST /register', () => {
       })
 
       it('should return 201 status with a token (in response body and in set-cookie header)', async () => {
-        const response = await request(app).post('/register').send(credentials).expect(201)
+        const response = await request(app).post('/api/register').send(credentials).expect(201)
         expect(response.body.token).toBeDefined()
         expect(response.headers['set-cookie']).toBeDefined()
       })

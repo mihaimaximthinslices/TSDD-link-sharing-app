@@ -1,4 +1,16 @@
 describe('login flow', () => {
+  describe('given the user is logged in', () => {
+    beforeEach(() => {
+      cy.login(
+          'mihai.maxim@thinslices.com', 'password1234'
+      )
+    })
+    it('should redirect me to /dashboard', () => {
+      cy.visit('http://localhost:3000/register')
+
+      cy.url().should('include', '/dashboard')
+    })
+  });
   describe('given the user is not logged in', () => {
     beforeEach(() => {
       cy.clearCookies()

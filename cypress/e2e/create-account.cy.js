@@ -1,4 +1,16 @@
 describe('create-account flow', () => {
+  describe('given the user is logged in', () => {
+    beforeEach(() => {
+      cy.login(
+       'mihai.maxim@thinslices.com', 'password1234'
+      )
+    })
+    it('should redirect me to /dashboard', () => {
+      cy.visit('http://localhost:3000/register')
+
+      cy.url().should('include', '/dashboard')
+    })
+  });
   describe('given the user is not logged in', () => {
     beforeEach(() => {
       cy.clearCookies()
@@ -51,7 +63,7 @@ describe('create-account flow', () => {
     describe('given the input is correct', () => {
       describe('given the user already has an account', () => {
         it('should display User already exists', () => {
-          cy.intercept('POST', '/register', {
+          cy.intercept('POST', '/api/register', {
             statusCode: 409,
           }).as('registerUser')
 
@@ -74,7 +86,7 @@ describe('create-account flow', () => {
       })
       describe('given the user does not have an account', () => {
         it('should redirect me to /dashboard', () => {
-          cy.intercept('POST', '/register', {
+          cy.intercept('POST', '/api/register', {
             statusCode: 201,
           }).as('registerUser')
 

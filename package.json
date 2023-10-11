@@ -38,6 +38,8 @@
     "zod": "^3.22.4"
   },
   "scripts": {
+    "start:server:dev": "cd ./api && dotenv -e .env.development.local nodemon index.ts",
+    "test:server": "dotenv -e .env.development.local vitest ./server",
     "start": "react-scripts start",
     "build": "cd ./server && npx prisma generate && cd .. && react-scripts build",
     "test": "react-scripts test",

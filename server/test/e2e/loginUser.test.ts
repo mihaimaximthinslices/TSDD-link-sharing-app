@@ -1,8 +1,9 @@
-import { expect, describe, it, beforeEach } from 'vitest'
-import app from "../../../server/app"
+import { expect, describe, it, beforeEach, beforeAll } from 'vitest'
+import app from '../../../server/app'
 import request from 'supertest'
 
-describe('POST /login', () => {
+describe.only('POST /api/login', () => {
+
   describe('given the credentials do not have the right format', () => {
     const badCredentialsMissingPassword = {
       email: 'mihai.maxim@thinslices.com',
@@ -37,7 +38,7 @@ describe('POST /login', () => {
     ]
 
     it.each(badCredentials)('should return 400 status if %s', async (badCredential) => {
-      await request(app).post('/login').send(badCredential).expect(400)
+      await request(app).post('/api/login').send(badCredential).expect(400)
     })
   })
 
@@ -49,7 +50,7 @@ describe('POST /login', () => {
 
     describe('given the email does not belong to an user', () => {
       it('should return 401 status', async () => {
-        await request(app).post('/login').send(credentials).expect(401)
+        await request(app).post('/api/login').send(credentials).expect(401)
       })
     })
 
@@ -63,7 +64,7 @@ describe('POST /login', () => {
           credentials.password = 'wrong_password'
         })
         it('should return 401 status', async () => {
-          await request(app).post('/login').send(credentials).expect(401)
+          await request(app).post('/api/login').send(credentials).expect(401)
         })
       })
 
@@ -72,7 +73,7 @@ describe('POST /login', () => {
           credentials.password = 'password1234'
         })
         it('should return 200 status with a token (in response body and in set-cookie header)', async () => {
-          const response = await request(app).post('/login').send(credentials).expect(200)
+          const response = await request(app).post('/api/login').send(credentials).expect(200)
           expect(response.body.token).toBeDefined()
           expect(response.headers['set-cookie']).toBeDefined()
         })
