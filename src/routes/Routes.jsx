@@ -6,6 +6,7 @@ import Register from '../pages/Register'
 import Login from '../pages/Login'
 import { AuthContext } from '../store/AuthContext'
 import axios from 'axios'
+import Dashboard from "../pages/Dashboard";
 
 const Routes = () => {
   const { user, setUser } = useContext(AuthContext)
@@ -62,7 +63,7 @@ const Routes = () => {
       children: [
         {
           path: '',
-          element: <h1>Dashboard</h1>,
+          element: <Dashboard/>,
           errorElement: <h1>Dashboard error</h1>,
         },
       ],

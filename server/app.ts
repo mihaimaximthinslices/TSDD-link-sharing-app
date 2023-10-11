@@ -15,7 +15,7 @@ app.use(cookies())
 
 app.use(
     cors({
-      origin: process.env.HOST,
+      origin: process.env.HST,
       credentials: true,
     }),
 )
