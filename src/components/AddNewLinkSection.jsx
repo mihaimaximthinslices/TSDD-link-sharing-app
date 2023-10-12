@@ -1,5 +1,12 @@
-import IllustrationEmpty from '../svg/illustration-empty'
 import IllustrationPhoneMockup from '../svg/illustration-phone-mockup'
+import { useSelector } from 'react-redux'
+import LinkCard, { availablePlatforms, platformData } from './LinkCard'
+import { useDispatch } from 'react-redux'
+import { setLinks } from '../store/ProfileReducer'
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
+import { GetStartedTip } from './GetStartedTip'
+import { v4 as uuidv4 } from 'uuid'
+import { clsx } from 'clsx'
 
 export function LinkDrawer() {
   return (
@@ -10,6 +17,51 @@ export function LinkDrawer() {
   )
 }
 export default function AddNewLinkSection() {
+  const links = useSelector((state) => state.profile.links)
+
+  const dispatch = useDispatch()
+
+  const canAddNewLink = links.length < Object.keys(platformData).length
+
+  const alreadySelected = links.map((link) => link.platform)
+
+  const onDragEnd = (result) => {
+    try {
+      let newLocalLinks = Array.from(links)
+      const [removed] = newLocalLinks.splice(result.source.index, 1)
+      newLocalLinks.splice(result.destination.index, 0, removed)
+
+      newLocalLinks = newLocalLinks.map((link, index) => {
+        return {
+          ...link,
+          order: `${index + 1}`,
+        }
+      })
+
+      dispatch(setLinks(newLocalLinks))
+    } catch (err) {}
+  }
+
+  function addNewEmptyLink() {
+    if (canAddNewLink) {
+      const newPlatform = availablePlatforms.find(
+        (platform) => !alreadySelected.includes(platform),
+      )
+
+      dispatch(
+        setLinks([
+          ...links,
+          {
+            order: links.length + 1,
+            id: uuidv4(),
+            platform: newPlatform,
+            link: '',
+          },
+        ]),
+      )
+    }
+  }
+
   return (
     <div className="flex-grow flex">
       <div className="w-full bg-whiteM flex gap-6 justify-center">
@@ -66,7 +118,15 @@ export default function AddNewLinkSection() {
                     </p>
                   </div>
                 </div>
-                <div className="flex w-full justify-center border border-purpleH rounded-md pt-[11px] pb-[11px] mt-10">
+                <div
+                  onClick={() => {
+                    addNewEmptyLink()
+                  }}
+                  className={clsx(
+                    'flex w-full justify-center border border-purpleH rounded-md pt-[11px] pb-[11px] mt-10 hover:bg-purpleS cursor-pointer',
+                    !canAddNewLink && 'opacity-50 cursor-not-allowed',
+                  )}
+                >
                   <button
                     data-cy="customize-links-section-add-link-button"
                     className="font-instrumentSans text-[16px] text-purpleH font-semibold"
@@ -74,32 +134,46 @@ export default function AddNewLinkSection() {
                     + Add new link
                   </button>
                 </div>
-
-                <div className="w-full flex justify-center items-center p-5 grow bg-whiteM mt-6">
-                  <div
-                    data-cy="customize-links-section-get-started-ilustration"
-                    className="flex flex-col gap-6 md:gap-0"
-                  >
-                    <div className="w-full flex justify-center">
-                      <IllustrationEmpty />
-                    </div>
-                    <div className="flex flex-col gap-6">
-                      <div className="w-full flex justify-center">
-                        <p className="font-instrumentSans font-bold text-[24px] text-blackH">
-                          Let's get you started
-                        </p>
-                      </div>
-                      <div>
-                        <p className="font-instrumentSans font-normal text-[16px] text-blackM text-center max-w-[488px]">
-                          Use the “Add new link” button to get started. Once you
-                          have more than one link, you can reorder and edit
-                          them. We’re here to help you share your profiles with
-                          everyone!
-                        </p>
-                      </div>
-                    </div>
+                {links.length === 0 ? (
+                  <GetStartedTip />
+                ) : (
+                  <div className="flex flex-col gap-6 w-full mt-6 min-h-[332px] max-h-[728px] overflow-y-scroll">
+                    <DragDropContext onDragEnd={onDragEnd}>
+                      <Droppable droppableId="droppable">
+                        {(provided) => (
+                          <div
+                            {...provided.droppableProps}
+                            ref={provided.innerRef}
+                          >
+                            {links.map(
+                              (
+                                { id, order, linkNumber, platform, link },
+                                index,
+                              ) => (
+                                <Draggable
+                                  key={id}
+                                  draggableId={id}
+                                  index={index}
+                                >
+                                  {(provided, snapshot) => (
+                                    <LinkCard
+                                      provided={provided}
+                                      snapshot={snapshot}
+                                      id={order}
+                                      link={link}
+                                      platform={platform}
+                                    />
+                                  )}
+                                </Draggable>
+                              ),
+                            )}
+                            {provided.placeholder}
+                          </div>
+                        )}
+                      </Droppable>
+                    </DragDropContext>
                   </div>
-                </div>
+                )}
               </div>
               <div
                 className="w-full bg-blackS"
@@ -110,7 +184,12 @@ export default function AddNewLinkSection() {
               <div className="w-full p-4 flex justify-center bg-white md:p-10 md:pt-6 md:pb-6 md:justify-end rounded-b-xl">
                 <button
                   data-cy="customize-links-section-save-button"
-                  className="font-instrumentSans text-[16px] font-semibold text-white bg-purpleM w-full pt-[11px] pb-[11px] rounded-md md:w-[91px]"
+                  className={clsx(
+                    'font-instrumentSans text-[16px] font-semibold text-white w-full pt-[11px] pb-[11px] rounded-md md:w-[91px]',
+                    links.length > 0
+                      ? 'bg-purpleH cursor-pointer hover:bg-purpleM'
+                      : 'bg-purpleM cursor-not-allowed',
+                  )}
                 >
                   Save
                 </button>

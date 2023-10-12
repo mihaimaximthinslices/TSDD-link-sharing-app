@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
 import reportWebVitals from './reportWebVitals'
@@ -6,17 +6,19 @@ import reportWebVitals from './reportWebVitals'
 import Routes from './routes/Routes'
 import axios from 'axios'
 import { AuthProvider } from './store/AuthContext'
-
+import { Provider } from 'react-redux'
+import { store } from './store/ReduxStore'
 axios.defaults.baseURL = process.env.REACT_APP_API_URL
 axios.defaults.withCredentials = true
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
+
 root.render(
-  <React.StrictMode>
-    <AuthProvider>
+  <AuthProvider>
+    <Provider store={store}>
       <Routes />
-    </AuthProvider>
-  </React.StrictMode>,
+    </Provider>
+  </AuthProvider>,
 )
 
 // If you want to start measuring performance in your app, pass a function

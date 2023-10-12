@@ -6,7 +6,7 @@ import LogoDevlinksLarge from '../svg/logo-devlinks-large'
 
 export default function DashboardNavbar() {
   return (
-    <div className="w-full md:p-4">
+    <div className="w-full md:p-4 sticky top-0 z-50">
       <div
         data-cy="devlinks-logo"
         className="flex justify-between pt-4 pb-4 pl-6 pr-4 items-center bg-white md:rounded-xl"
