@@ -7,15 +7,54 @@ import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { GetStartedTip } from './GetStartedTip'
 import { v4 as uuidv4 } from 'uuid'
 import { clsx } from 'clsx'
+import { IconArrowRight } from '../svg/icon-arrow-right'
+export function LinkDrawer({ platform, link }) {
+  const data = platformData[platform] ?? null
 
-export function LinkDrawer() {
   return (
     <div
-      data-cy="nav-customize-links-profile-link-placeholder"
-      className="z-10 w-[237px] h-[44px] rounded-md bg-grayH"
-    ></div>
+      data-cy="profile-view-link-placeholder"
+      className="z-10 w-[237px] min-h-[44px] rounded-md bg-grayH"
+    >
+      {platform && (
+        <a
+          href={link}
+          target={'_blank'}
+          className={clsx(
+            'w-full h-full rounded-md flex items-center pl-4 pr-4 justify-between border shadow-sm',
+            link.length === 0 && 'pointer-events-none',
+          )}
+          style={{
+            backgroundColor: data.profileView.bg,
+          }}
+        >
+          <div className="flex gap-2">
+            <div className="text-white">{data.profileView.icon}</div>
+            <p
+              className="font-instrumentSans text-center text-[12px]"
+              style={{
+                color: data.profileView.textCol || '#ffffff',
+              }}
+            >
+              {data.name}
+            </p>
+          </div>
+          {link.length !== 0 && (
+            <div>
+              {!data.profileView.arrow ? (
+                <IconArrowRight />
+              ) : (
+                data.profileView.arrow
+              )}
+            </div>
+          )}
+        </a>
+      )}
+    </div>
   )
 }
+
+const copyObj = (obj) => JSON.parse(JSON.stringify(obj))
 export default function AddNewLinkSection() {
   const links = useSelector((state) => state.profile.links)
 
@@ -24,6 +63,14 @@ export default function AddNewLinkSection() {
   const canAddNewLink = links.length < Object.keys(platformData).length
 
   const alreadySelected = links.map((link) => link.platform)
+
+  const profileViewLinks = copyObj(links)
+
+  while (profileViewLinks.length < 5) {
+    profileViewLinks.push({})
+  }
+
+  console.log(profileViewLinks)
 
   const onDragEnd = (result) => {
     try {
@@ -65,7 +112,7 @@ export default function AddNewLinkSection() {
   return (
     <div className="flex-grow flex">
       <div className="w-full bg-whiteM flex gap-6 justify-center">
-        <div className="sticky top-28 w-[560px] max-h-[834px] hidden 1xl:block bg-white rounded-xl mt-2 mb-6">
+        <div className="sticky top-28 w-[560px] h-[834px] hidden 1xl:block bg-white rounded-xl mt-2 mb-6">
           <div className="relative">
             <div className="pt-24 pl-[115px]">
               <IllustrationPhoneMockup />
@@ -83,9 +130,14 @@ export default function AddNewLinkSection() {
                   className="z-10 w-[72px] h-[8px] rounded-xl mt-[13px] bg-grayH"
                 ></div>
                 <div className="flex flex-col mt-[56px] gap-5">
-                  {[1, 2, 3, 4, 5].map((number) => {
-                    return <LinkDrawer key={number} />
-                  })}
+                  <div
+                    data-cy="profile-view-link-container"
+                    className="flex flex-col gap-5 max-h-[300px] overflow-y-scroll min-w-[275px] items-center"
+                  >
+                    {profileViewLinks.map((link, index) => {
+                      return <LinkDrawer key={uuidv4()} {...link} />
+                    })}
+                  </div>
                 </div>
               </div>
             </div>

@@ -1,23 +1,31 @@
 import IconDragAndDrop from '../svg/icon-drag-and-drop'
-import IconGithub from '../svg/icon-github'
-import IconFrontendMentor from '../svg/icon-frontend-mentor'
-import IconTwitter from '../svg/icon-twitter'
-import IconLinkedin from '../svg/icon-linkedin'
-import IconFacebook from '../svg/icon-facebook'
-import IconTwitch from '../svg/icon-twitch'
-import IconDevto from '../svg/icon-devto'
-import IconCodewars from '../svg/icon-codewars'
-import IconCodepen from '../svg/icon-codepen'
-import IconFreecodecamp from '../svg/icon-freecodecamp'
-import IconGitlab from '../svg/icon-gitlab'
-import IconHashnode from '../svg/icon-hashnode'
-import IconStackoverflow from '../svg/icon-stack-overflow'
+import { IconGithub, IconGithubWhite } from '../svg/icon-github'
+import { IconFrontendMentor } from '../svg/icon-frontend-mentor'
+import { IconTwitter, IconTwitterWhite } from '../svg/icon-twitter'
+import { IconLinkedin, IconLinkedinWhite } from '../svg/icon-linkedin'
+import { IconFacebook, IconFacebookWhite } from '../svg/icon-facebook'
+import { IconTwitch, IconTwitchWhite } from '../svg/icon-twitch'
+import { IconDevto, IconDevtoWhite } from '../svg/icon-devto'
+import { IconCodewars, IconCodewarsWhite } from '../svg/icon-codewars'
+import { IconCodepen, IconCodepenWhite } from '../svg/icon-codepen'
+import {
+  IconFreecodecamp,
+  IconFreecodecampWhite,
+} from '../svg/icon-freecodecamp'
+import { IconGitlab, IconGitlabWhite } from '../svg/icon-gitlab'
+import { IconHashnode, IconHashnodeWhite } from '../svg/icon-hashnode'
+import {
+  IconStackoverflow,
+  IconStackoverflowWhite,
+} from '../svg/icon-stack-overflow'
 import IconChevronDown from '../svg/icon-chevron-down'
 import IconLink from '../svg/icon-link'
 import { useSelector, useDispatch } from 'react-redux'
 import { clsx } from 'clsx'
 import { useState } from 'react'
 import { setLinks } from '../store/ProfileReducer'
+import { IconYouTube, IconYouTubeWhite } from '../svg/icon-youtube'
+import { IconArrowRight, IconArrowRightBlack } from '../svg/icon-arrow-right'
 
 export const availablePlatforms = [
   'github',
@@ -42,6 +50,10 @@ export const platformData = {
     dataId: 'link-card-platform-option-github',
     exampleLink: 'e.g. https://www.github.com/johnappleseed',
     icon: <IconGithub />,
+    profileView: {
+      bg: '#1A1A1A',
+      icon: <IconGithubWhite />,
+    },
   },
   frontendmentor: {
     key: 'frontendmentor',
@@ -49,6 +61,12 @@ export const platformData = {
     dataId: 'link-card-platform-option-frontend-mentor',
     exampleLink: 'https://',
     icon: <IconFrontendMentor />,
+    profileView: {
+      bg: '#FFFFFF',
+      icon: <IconFrontendMentor />,
+      textCol: '#333333',
+      arrow: <IconArrowRightBlack />,
+    },
   },
   twitter: {
     key: 'twitter',
@@ -56,6 +74,10 @@ export const platformData = {
     dataId: 'link-card-platform-option-twitter',
     exampleLink: 'https://',
     icon: <IconTwitter />,
+    profileView: {
+      bg: '#43B7E9',
+      icon: <IconTwitterWhite />,
+    },
   },
   linkedin: {
     key: 'linkedin',
@@ -63,13 +85,21 @@ export const platformData = {
     dataId: 'link-card-platform-option-linkedin',
     exampleLink: 'https://',
     icon: <IconLinkedin />,
+    profileView: {
+      bg: '#2D68FF',
+      icon: <IconLinkedinWhite />,
+    },
   },
   youtube: {
     key: 'youtube',
     name: 'YouTube',
     dataId: 'link-card-platform-option-youtube',
     exampleLink: 'https://',
-    icon: <IconGithub />,
+    icon: <IconYouTube />,
+    profileView: {
+      bg: '#EE3939',
+      icon: <IconYouTubeWhite />,
+    },
   },
   facebook: {
     key: 'facebook',
@@ -77,6 +107,10 @@ export const platformData = {
     dataId: 'link-card-platform-option-facebook',
     exampleLink: 'https://',
     icon: <IconFacebook />,
+    profileView: {
+      bg: '#2442AC',
+      icon: <IconFacebookWhite />,
+    },
   },
   twitch: {
     key: 'twitch',
@@ -84,6 +118,10 @@ export const platformData = {
     dataId: 'link-card-platform-option-twitch',
     exampleLink: 'https://',
     icon: <IconTwitch />,
+    profileView: {
+      bg: '#EE3FC8',
+      icon: <IconTwitchWhite />,
+    },
   },
   devto: {
     key: 'devto',
@@ -91,6 +129,10 @@ export const platformData = {
     dataId: 'link-card-platform-option-devto',
     exampleLink: 'https://',
     icon: <IconDevto />,
+    profileView: {
+      bg: '#333333',
+      icon: <IconDevtoWhite />,
+    },
   },
   codewars: {
     key: 'codewars',
@@ -98,6 +140,10 @@ export const platformData = {
     dataId: 'link-card-platform-option-codewars',
     exampleLink: 'https://',
     icon: <IconCodewars />,
+    profileView: {
+      bg: '#8A1A50',
+      icon: <IconCodewarsWhite />,
+    },
   },
   codepen: {
     key: 'codepen',
@@ -105,6 +151,10 @@ export const platformData = {
     dataId: 'link-card-platform-option-codepen',
     exampleLink: 'https://',
     icon: <IconCodepen />,
+    profileView: {
+      bg: '#633CFF',
+      icon: <IconCodepenWhite />,
+    },
   },
   freecodecamp: {
     key: 'freecodecamp',
@@ -112,6 +162,10 @@ export const platformData = {
     dataId: 'link-card-platform-option-freecodecamp',
     exampleLink: 'https://',
     icon: <IconFreecodecamp />,
+    profileView: {
+      bg: '#302267',
+      icon: <IconFreecodecampWhite />,
+    },
   },
   gitlab: {
     key: 'gitlab',
@@ -119,6 +173,10 @@ export const platformData = {
     dataId: 'link-card-platform-option-gitlab',
     exampleLink: 'https://',
     icon: <IconGitlab />,
+    profileView: {
+      bg: '#EB4925',
+      icon: <IconGitlabWhite />,
+    },
   },
   hashnode: {
     key: 'hashnode',
@@ -126,6 +184,10 @@ export const platformData = {
     dataId: 'link-card-platform-option-hashnode',
     exampleLink: 'https://',
     icon: <IconHashnode />,
+    profileView: {
+      bg: '#0330D1',
+      icon: <IconHashnodeWhite />,
+    },
   },
   stackoverflow: {
     key: 'stackoverflow',
@@ -133,6 +195,10 @@ export const platformData = {
     dataId: 'link-card-platform-option-stackoverflow',
     exampleLink: 'https://',
     icon: <IconStackoverflow />,
+    profileView: {
+      bg: '#EC7100',
+      icon: <IconStackoverflowWhite />,
+    },
   },
 }
 
@@ -151,6 +217,16 @@ export default function LinkCard({ id, platform, link, provided, snapshot }) {
   const [selectedPlatform, setSelectedPlatform] = useState(
     platformData[platform],
   )
+
+  function updateLinkURL(e) {
+    const newLinks = links.map((link) => {
+      if (link.platform === selectedPlatform.key)
+        return { ...link, link: e.target.value }
+
+      return link
+    })
+    dispatch(setLinks(newLinks))
+  }
 
   return (
     <div
@@ -294,6 +370,9 @@ export default function LinkCard({ id, platform, link, provided, snapshot }) {
               data-cy="link-card-link"
               type="text"
               defaultValue={link}
+              onChange={(e) => {
+                updateLinkURL(e)
+              }}
               placeholder={selectedPlatform.exampleLink}
               className="pt-3 pl-[40px] pr-4 pb-3 rounded-md border border-blackS font-instrumentSans text-[16px] text-blackH font-normal"
             />

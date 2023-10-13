@@ -120,7 +120,7 @@ export default function Register() {
               </div>
 
               <input
-                autocomplete="off"
+                autoComplete="off"
                 data-cy="email-address-input"
                 className={clsx(
                   'border-blackS font-instrumentSans text-blackM shadow-purpleH h-12 items-center rounded-lg border pb-3 pl-10 pr-2 pt-[11px] text-[16px]',
@@ -164,7 +164,7 @@ export default function Register() {
               </div>
 
               <input
-                autocomplete="off"
+                autoComplete="off"
                 data-cy="password-input"
                 className={clsx(
                   'border-blackS font-instrumentSans text-blackM shadow-purpleH h-12 items-center rounded-lg border pb-3 pl-10 pr-2 pt-[11px] text-[16px]',
@@ -208,7 +208,7 @@ export default function Register() {
               </div>
 
               <input
-                autocomplete="off"
+                autoComplete="off"
                 data-cy="confirmPassword-input"
                 className={clsx(
                   'border-blackS font-instrumentSans text-blackM shadow-purpleH h-12 items-center rounded-lg border pb-3 pl-10 pr-2 pt-[11px] text-[16px]',
