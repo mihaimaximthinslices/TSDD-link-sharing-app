@@ -1,5 +1,5 @@
 import DashboardNavbar from '../components/DashboardNavbar'
-import AddNewLinkSection from '../components/AddNewLinkSection'
+import DashboardMainScreen from '../components/DashboardMainScreen'
 
 export default function Dashboard() {
   return (
@@ -11,7 +11,7 @@ export default function Dashboard() {
     >
       <DashboardNavbar />
 
-      <AddNewLinkSection />
+      <DashboardMainScreen />
     </div>
   )
 }

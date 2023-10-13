@@ -8,3 +8,19 @@
 .draggableItem:not(:last-child) {
     margin-bottom: 24px;
 }
+
+.hoveredSection {
+    color: #633CFF;
+}
+
+.hoveredSection:hover * {
+    color: #633CFF;
+    fill: #633CFF;
+}
+
+.selectedCustomizeLinksSection, .selectedCustomizeLinksSection * {
+    color: #633CFF;
+    fill: #633CFF;
+    background: #EFEBFF;
+}
+

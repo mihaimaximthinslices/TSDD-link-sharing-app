@@ -3,8 +3,22 @@ import IconLinksHeader from '../svg/icon-links-header'
 import IconProfileDetailsHeader from '../svg/icon-profile-details-header'
 import IconPreviewHeader from '../svg/icon-preview-header'
 import LogoDevlinksLarge from '../svg/logo-devlinks-large'
+import { useContext } from 'react'
+import { NavigationContext } from '../store/NavigationContext'
+import { dashboardSections } from '../store/NavigationContext'
+import { clsx } from 'clsx'
 
 export default function DashboardNavbar() {
+  const { setNavigation, navigation } = useContext(NavigationContext)
+
+  const dashboardSection = navigation.dashboardSection
+
+  const showCustomizeLinksSection =
+    dashboardSection === dashboardSections.customizeLinks
+
+  const showProfileDetailsSection =
+    dashboardSection === dashboardSections.updateProfileDetails
+
   return (
     <div className="w-full md:p-4 sticky top-0 z-50">
       <div
@@ -17,16 +31,41 @@ export default function DashboardNavbar() {
         <div className="pr-[20px] hidden md:block">
           <LogoDevlinksLarge />
         </div>
-        <div data-cy="nav-customize-links-section-button" className="flex ">
-          <div className="pl-[27px] pr-[27px] pt-[11px] pb-[11px] bg-purpleS rounded-xl flex gap-2 items-center">
+        <div className="flex gap-4">
+          <div
+            data-cy="nav-customize-links-section-button"
+            onClick={() => {
+              setNavigation((old) => {
+                return {
+                  ...old,
+                  dashboardSection: dashboardSections.customizeLinks,
+                }
+              })
+            }}
+            className={clsx(
+              'pl-[27px] pr-[27px] pt-[11px] pb-[11px] rounded-xl flex gap-2 items-center cursor-pointer hoveredSection',
+              showCustomizeLinksSection && 'selectedCustomizeLinksSection',
+            )}
+          >
             <IconLinksHeader />
-            <p className="font-instrumentSans text-[16px] text-purpleH font-semibold hidden md:block">
+            <p className="font-instrumentSans text-[16px] text-blackM font-semibold hidden md:block">
               Links
             </p>
           </div>
           <div
             data-cy="nav-profile-section-button"
-            className="pl-[27px] pr-[27px] pt-[11px] pb-[11px] flex gap-2 items-center"
+            onClick={() => {
+              setNavigation((old) => {
+                return {
+                  ...old,
+                  dashboardSection: dashboardSections.updateProfileDetails,
+                }
+              })
+            }}
+            className={clsx(
+              'pl-[27px] pr-[27px] pt-[11px] pb-[11px] flex gap-2 items-center cursor-pointer rounded-xl hoveredSection',
+              showProfileDetailsSection && 'selectedCustomizeLinksSection',
+            )}
           >
             <IconProfileDetailsHeader />
             <p className="font-instrumentSans text-[16px] text-blackM font-semibold hidden md:block">

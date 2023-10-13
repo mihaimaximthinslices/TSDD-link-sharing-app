@@ -8,6 +8,7 @@ import axios from 'axios'
 import { AuthProvider } from './store/AuthContext'
 import { Provider } from 'react-redux'
 import { store } from './store/ReduxStore'
+import { NavigationProvider } from './store/NavigationContext'
 axios.defaults.baseURL = process.env.REACT_APP_API_URL
 axios.defaults.withCredentials = true
 
@@ -15,9 +16,11 @@ const root = ReactDOM.createRoot(document.getElementById('root'))
 
 root.render(
   <AuthProvider>
-    <Provider store={store}>
-      <Routes />
-    </Provider>
+    <NavigationProvider>
+      <Provider store={store}>
+        <Routes />
+      </Provider>
+    </NavigationProvider>
   </AuthProvider>,
 )
 
