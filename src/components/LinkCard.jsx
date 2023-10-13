@@ -39,98 +39,98 @@ export const platformData = {
   github: {
     key: 'github',
     name: 'GitHub',
-    dataId: 'nav-link-card-platform-option-github',
+    dataId: 'link-card-platform-option-github',
     exampleLink: 'e.g. https://www.github.com/johnappleseed',
     icon: <IconGithub />,
   },
   frontendmentor: {
     key: 'frontendmentor',
     name: 'Frontend Mentor',
-    dataId: 'nav-link-card-platform-option-frontend-mentor',
+    dataId: 'link-card-platform-option-frontend-mentor',
     exampleLink: 'https://',
     icon: <IconFrontendMentor />,
   },
   twitter: {
     key: 'twitter',
     name: 'Twitter',
-    dataId: 'nav-link-card-platform-option-twitter',
+    dataId: 'link-card-platform-option-twitter',
     exampleLink: 'https://',
     icon: <IconTwitter />,
   },
   linkedin: {
     key: 'linkedin',
     name: 'LinkedIn',
-    dataId: 'nav-link-card-platform-option-linkedin',
+    dataId: 'link-card-platform-option-linkedin',
     exampleLink: 'https://',
     icon: <IconLinkedin />,
   },
   youtube: {
     key: 'youtube',
     name: 'YouTube',
-    dataId: 'nav-link-card-platform-option-youtube',
+    dataId: 'link-card-platform-option-youtube',
     exampleLink: 'https://',
     icon: <IconGithub />,
   },
   facebook: {
     key: 'facebook',
     name: 'Facebook',
-    dataId: 'nav-link-card-platform-option-facebook',
+    dataId: 'link-card-platform-option-facebook',
     exampleLink: 'https://',
     icon: <IconFacebook />,
   },
   twitch: {
     key: 'twitch',
     name: 'Twitch',
-    dataId: 'nav-link-card-platform-option-twitch',
+    dataId: 'link-card-platform-option-twitch',
     exampleLink: 'https://',
     icon: <IconTwitch />,
   },
   devto: {
     key: 'devto',
     name: 'Dev.to',
-    dataId: 'nav-link-card-platform-option-devto',
+    dataId: 'link-card-platform-option-devto',
     exampleLink: 'https://',
     icon: <IconDevto />,
   },
   codewars: {
     key: 'codewars',
     name: 'Codewars',
-    dataId: 'nav-link-card-platform-option-codewars',
+    dataId: 'link-card-platform-option-codewars',
     exampleLink: 'https://',
     icon: <IconCodewars />,
   },
   codepen: {
     key: 'codepen',
     name: 'Codepen',
-    dataId: 'nav-link-card-platform-option-codepen',
+    dataId: 'link-card-platform-option-codepen',
     exampleLink: 'https://',
     icon: <IconCodepen />,
   },
   freecodecamp: {
     key: 'freecodecamp',
     name: 'freeCodeCamp',
-    dataId: 'nav-link-card-platform-option-freecodecamp',
+    dataId: 'link-card-platform-option-freecodecamp',
     exampleLink: 'https://',
     icon: <IconFreecodecamp />,
   },
   gitlab: {
     key: 'gitlab',
     name: 'GitLab',
-    dataId: 'nav-link-card-platform-option-gitlab',
+    dataId: 'link-card-platform-option-gitlab',
     exampleLink: 'https://',
     icon: <IconGitlab />,
   },
   hashnode: {
     key: 'hashnode',
     name: 'Hashnode',
-    dataId: 'nav-link-card-platform-option-hashnode',
+    dataId: 'link-card-platform-option-hashnode',
     exampleLink: 'https://',
     icon: <IconHashnode />,
   },
   stackoverflow: {
     key: 'stackoverflow',
     name: 'Stack Overflow',
-    dataId: 'nav-link-card-platform-option-stackoverflow',
+    dataId: 'link-card-platform-option-stackoverflow',
     exampleLink: 'https://',
     icon: <IconStackoverflow />,
   },
@@ -160,15 +160,22 @@ export default function LinkCard({ id, platform, link, provided, snapshot }) {
       {...provided.dragHandleProps}
       className="draggableItem"
     >
-      <div className="bg-whiteM p-5 flex flex-col rounded-xl gap-3">
+      <div
+        data-cy="link-card"
+        className="bg-whiteM p-5 flex flex-col rounded-xl gap-3"
+      >
         <div className="flex justify-between items-cente">
           <div className="flex gap-2 items-center">
             <IconDragAndDrop />
-            <span className="font-instrumentSans text-[16px] text-blackM font-bold">
+            <span
+              data-cy="link-card-title"
+              className="font-instrumentSans text-[16px] text-blackM font-bold"
+            >
               Link #{id}
             </span>
           </div>
           <button
+            data-cy="link-card-remove"
             onClick={() => {
               let oldOrder
               let newLinks = links.filter((pLink) => {
@@ -202,6 +209,7 @@ export default function LinkCard({ id, platform, link, provided, snapshot }) {
               Platform
             </label>
             <div
+              data-cy="link-card-platform"
               onClick={() => setShowOptions((old) => !old)}
               className="flex flex-col w-full gap-1 relative"
             >
@@ -226,6 +234,7 @@ export default function LinkCard({ id, platform, link, provided, snapshot }) {
                   return (
                     !alreadySelected.includes(platformData[option].key) && (
                       <div
+                        data-cy={platformData[option].dataId}
                         key={dataId + platformData[option].key}
                         onClick={() => {
                           const newLinks = links.map((pLink) => {
@@ -279,6 +288,7 @@ export default function LinkCard({ id, platform, link, provided, snapshot }) {
               <IconLink />
             </div>
             <input
+              data-cy="link-card-link"
               type="text"
               defaultValue={link}
               placeholder={selectedPlatform.exampleLink}

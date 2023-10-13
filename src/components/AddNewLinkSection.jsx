@@ -133,7 +133,10 @@ export default function AddNewLinkSection() {
                 {links.length === 0 ? (
                   <GetStartedTip />
                 ) : (
-                  <div className="flex flex-col gap-6 w-full mt-6 min-h-[332px] max-h-[728px] overflow-y-scroll">
+                  <div
+                    data-cy="link-container"
+                    className="flex flex-col gap-6 w-full mt-6 min-h-[332px] overflow-y-scroll"
+                  >
                     <DragDropContext onDragEnd={onDragEnd}>
                       <Droppable droppableId="droppable">
                         {(provided) => (
