@@ -224,7 +224,10 @@ export default function LinkCard({ id, platform, link, provided, snapshot }) {
               >
                 <IconChevronDown />
               </div>
-              <button className="pt-3 pl-[40px] pr-4 pb-3 rounded-md border border-blackS bg-no-repeat bg-custom-arrow-up text-left bg-white font-instrumentSans text-blackH text-[16px]">
+              <button
+                data-cy="link-card-platform-viewname"
+                className="pt-3 pl-[40px] pr-4 pb-3 rounded-md border border-blackS bg-no-repeat bg-custom-arrow-up text-left bg-white font-instrumentSans text-blackH text-[16px]"
+              >
                 {selectedPlatform.name}
               </button>
             </div>
