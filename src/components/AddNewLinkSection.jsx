@@ -65,33 +65,29 @@ export default function AddNewLinkSection() {
   return (
     <div className="flex-grow flex">
       <div className="w-full bg-whiteM flex gap-6 justify-center">
-        <div className="w-[560px] hidden 1xl:block bg-white rounded-xl mt-2 mb-6 relative">
-          <div
-            className="absolute left-1/2 top-1/2"
-            style={{
-              transform: 'translate(-50%, -50%)',
-              zIndex: 0,
-            }}
-          >
-            <IllustrationPhoneMockup />
-          </div>
-          <div className="flex flex-col items-center justify-center pb-[90px] w-full h-full pt-[100px]">
-            <div
-              className="w-[96px] h-[96px] rounded-full z-10 bg-grayH"
-              data-cy="nav-customize-links-profile-picture-placeholder"
-            ></div>
-            <div
-              data-cy="nav-customize-links-profile-name-placeholder"
-              className="z-10 w-[160px] h-[16px] rounded-xl mt-[26px] bg-grayH"
-            ></div>
-            <div
-              data-cy="nav-customize-links-profile-email-placeholder"
-              className="z-10 w-[72px] h-[8px] rounded-xl mt-[13px] bg-grayH"
-            ></div>
-            <div className="flex flex-col mt-[56px] gap-5">
-              {[1, 2, 3, 4, 5].map((number) => {
-                return <LinkDrawer key={number} />
-              })}
+        <div className="sticky top-28 w-[560px] max-h-[834px] hidden 1xl:block bg-white rounded-xl mt-2 mb-6">
+          <div className="relative">
+            <div className="pt-24 pl-[115px]">
+              <IllustrationPhoneMockup />
+              <div className="flex flex-col items-center justify-center  w-full h-full absolute top-[53px] right-[12px]">
+                <div
+                  className="w-[96px] h-[96px] rounded-full z-10 bg-grayH"
+                  data-cy="nav-customize-links-profile-picture-placeholder"
+                ></div>
+                <div
+                  data-cy="nav-customize-links-profile-name-placeholder"
+                  className="z-10 w-[160px] h-[16px] rounded-xl mt-[26px] bg-grayH"
+                ></div>
+                <div
+                  data-cy="nav-customize-links-profile-email-placeholder"
+                  className="z-10 w-[72px] h-[8px] rounded-xl mt-[13px] bg-grayH"
+                ></div>
+                <div className="flex flex-col mt-[56px] gap-5">
+                  {[1, 2, 3, 4, 5].map((number) => {
+                    return <LinkDrawer key={number} />
+                  })}
+                </div>
+              </div>
             </div>
           </div>
         </div>
