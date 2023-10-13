@@ -68,7 +68,6 @@ export default function Register() {
         if (err.response.status === 409) {
           setErrors({
             email: 'User already exists',
-            password: 'User already exists',
           })
         }
       }
@@ -121,12 +120,14 @@ export default function Register() {
               </div>
 
               <input
+                autocomplete="off"
                 data-cy="email-address-input"
                 className={clsx(
                   'border-blackS font-instrumentSans text-blackM shadow-purpleH h-12 items-center rounded-lg border pb-3 pl-10 pr-2 pt-[11px] text-[16px]',
                   'focus:outline-purpleH',
                   errors.email &&
                     'focus:outline-redH outline outline-redH outline-1',
+                  errors.email && 'text-white md:text-blackM',
                 )}
                 type="text"
                 id="email"
@@ -163,12 +164,14 @@ export default function Register() {
               </div>
 
               <input
+                autocomplete="off"
                 data-cy="password-input"
                 className={clsx(
                   'border-blackS font-instrumentSans text-blackM shadow-purpleH h-12 items-center rounded-lg border pb-3 pl-10 pr-2 pt-[11px] text-[16px]',
                   'focus:outline-purpleH',
                   errors.password &&
                     'focus:outline-redH outline outline-redH outline-1',
+                  errors.password && 'text-white md:text-blackM',
                 )}
                 type="password"
                 id="password"
@@ -205,12 +208,14 @@ export default function Register() {
               </div>
 
               <input
+                autocomplete="off"
                 data-cy="confirmPassword-input"
                 className={clsx(
                   'border-blackS font-instrumentSans text-blackM shadow-purpleH h-12 items-center rounded-lg border pb-3 pl-10 pr-2 pt-[11px] text-[16px]',
                   'focus:outline-purpleH',
                   errors.confirmPassword &&
                     'focus:outline-redH outline outline-redH outline-1',
+                  errors.confirmPassword && 'text-white md:text-blackM',
                 )}
                 type="password"
                 id="confirmPassword"

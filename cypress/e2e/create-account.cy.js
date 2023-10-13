@@ -1,16 +1,14 @@
 describe('create-account flow', () => {
   describe('given the user is logged in', () => {
     beforeEach(() => {
-      cy.login(
-       'mihai.maxim@thinslices.com', 'password1234'
-      )
+      cy.login('mihai.maxim@thinslices.com', 'password1234')
     })
     it('should redirect me to /dashboard', () => {
       cy.visit('http://localhost:3000/register')
 
       cy.url().should('include', '/dashboard')
     })
-  });
+  })
   describe('given the user is not logged in', () => {
     beforeEach(() => {
       cy.clearCookies()
@@ -81,7 +79,7 @@ describe('create-account flow', () => {
 
           cy.contains('User already exists')
             .get('span:contains(User already exists)')
-            .should('have.length', 2)
+            .should('have.length', 1)
         })
       })
       describe('given the user does not have an account', () => {
