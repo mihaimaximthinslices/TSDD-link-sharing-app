@@ -13,7 +13,7 @@ import {
   dashboardSections,
   NavigationContext,
 } from '../store/NavigationContext'
-import IconUploadImage from '../svg/icon-upload-image'
+import { IconUploadImage, IconUploadImageWhite } from '../svg/icon-upload-image'
 
 export function LinkDrawer({ platform, link }) {
   const data = platformData[platform] ?? null
@@ -93,9 +93,7 @@ export default function DashboardMainScreen() {
 
         reader.onload = function (e) {
           base64Image = e.target.result
-
           const img = new Image()
-          img.src = base64Image
           img.onload = function () {
             if (img.width <= 1024 && img.height <= 1024) {
               dispatch(setBase64ProfileImage(base64Image))
@@ -106,6 +104,8 @@ export default function DashboardMainScreen() {
               base64Image = ''
             }
           }
+
+          img.src = base64Image
         }
 
         reader.readAsDataURL(file)
@@ -344,13 +344,14 @@ export default function DashboardMainScreen() {
                             onClick={() => {
                               uploadImageInputRef.current.click()
                             }}
-                            className="w-[193px] h-[193px] bg-purpleS rounded-xl flex flex-col items-center justify-center cursor-pointer"
+                            className=" relative w-[193px] h-[193px] bg-purpleS rounded-xl flex flex-col items-center justify-center cursor-pointer"
                           >
                             <div
                               data-cy="update-profile-section-image-upload-zone"
                               className="flex flex-col gap-2 w-full items-center"
                             >
                               <input
+                                data-cy="update-profile-section-image-upload-zone-input"
                                 ref={uploadImageInputRef}
                                 onChange={handleSelectProfileImage}
                                 type="file"
@@ -362,6 +363,28 @@ export default function DashboardMainScreen() {
                               <p className="font-instrumentSans font-normal text-[16px] text-purpleH">
                                 + Upload Image
                               </p>
+                              {base64ProfileImage && (
+                                <div
+                                  className=" top-0 absolute w-[193px] h-[193px] rounded-md shadow-sm flex flex-col items-center justify-center"
+                                  style={{
+                                    background: `url(${base64ProfileImage}) center/cover no-repeat`,
+                                  }}
+                                >
+                                  <div
+                                    className=" top-0 absolute w-[193px] h-[193px] rounded-md shadow-sm flex flex-col items-center justify-center"
+                                    style={{
+                                      backgroundColor: 'black',
+                                      opacity: '50%',
+                                    }}
+                                  ></div>
+                                  <div className="z-10 flex flex-col items-center justify-center">
+                                    <IconUploadImageWhite />
+                                    <p className="font-instrumentSans font-normal text-[16px] text-white">
+                                      Change Image
+                                    </p>
+                                  </div>
+                                </div>
+                              )}
                             </div>
                           </div>
                           <div className="mt-2 hidden md:flex flex-col md:items-center md:justify-center">
