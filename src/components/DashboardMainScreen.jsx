@@ -179,11 +179,11 @@ export default function DashboardMainScreen() {
                 )}
 
                 <div
-                  data-cy="nav-customize-links-profile-name-placeholder"
+                  data-cy="profile-view-name-placeholder"
                   className="z-10 w-[160px] h-[16px] rounded-xl mt-[26px] bg-grayH"
                 ></div>
                 <div
-                  data-cy="nav-customize-links-profile-email-placeholder"
+                  data-cy="profile-view-email-placeholder"
                   className="z-10 w-[72px] h-[8px] rounded-xl mt-[13px] bg-grayH"
                 ></div>
                 <div className="flex flex-col mt-[56px] gap-5">
