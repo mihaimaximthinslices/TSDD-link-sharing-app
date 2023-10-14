@@ -2,7 +2,13 @@ import IllustrationPhoneMockup from '../svg/illustration-phone-mockup'
 import { useSelector } from 'react-redux'
 import LinkCard, { availablePlatforms, platformData } from './LinkCard'
 import { useDispatch } from 'react-redux'
-import { setBase64ProfileImage, setLinks } from '../store/ProfileReducer'
+import {
+  setBase64ProfileImage,
+  setEmail,
+  setFirstName,
+  setLastName,
+  setLinks,
+} from '../store/ProfileReducer'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { GetStartedTip } from './GetStartedTip'
 import { v4 as uuidv4 } from 'uuid'
@@ -66,7 +72,9 @@ export default function DashboardMainScreen() {
   const selectedDashboardSection =
     useContext(NavigationContext).navigation.dashboardSection
 
-  const { links, base64ProfileImage } = useSelector((state) => state.profile)
+  const { links, base64ProfileImage, firstName, lastName, email } = useSelector(
+    (state) => state.profile,
+  )
 
   const uploadImageInputRef = useRef()
 
@@ -180,12 +188,37 @@ export default function DashboardMainScreen() {
 
                 <div
                   data-cy="profile-view-name-placeholder"
-                  className="z-10 w-[160px] h-[16px] rounded-xl mt-[26px] bg-grayH"
-                ></div>
+                  className={clsx(
+                    'z-10 min-w-[160px] h-[16px]  mt-[26px] flex items-center justify-center',
+                    firstName.length || lastName.length
+                      ? 'bg-white'
+                      : 'bg-grayH rounded-xl',
+                  )}
+                >
+                  <div className="flex justify-center w-full max-w-[260px] overflow-x-scroll gap-1">
+                    <p className="font-instrumentSans font-semibold text-[16px] text-blackH">
+                      {firstName}
+                    </p>
+                    <p className="font-instrumentSans font-semibold text-[16px] text-blackH">
+                      {lastName}
+                    </p>
+                  </div>
+                </div>
                 <div
                   data-cy="profile-view-email-placeholder"
-                  className="z-10 w-[72px] h-[8px] rounded-xl mt-[13px] bg-grayH"
-                ></div>
+                  className={clsx(
+                    'z-10 min-w-[72px] h-[8px] rounded-xl mt-[13px]',
+                    email.length ? 'bg-white' : 'bg-grayH rounded-xl',
+                  )}
+                >
+                  {email.length > 0 && (
+                    <div className="flex justify-center items-center max-w-[260px] overflow-x-scroll">
+                      <p className="font-instrumentSans font-normal text-[14px] text-blackM">
+                        {email}
+                      </p>
+                    </div>
+                  )}
+                </div>
                 <div className="flex flex-col mt-[56px] gap-5">
                   <div
                     data-cy="profile-view-link-container"
@@ -405,6 +438,10 @@ export default function DashboardMainScreen() {
                           First name*
                         </label>
                         <input
+                          onChange={(e) => {
+                            dispatch(setFirstName(e.target.value))
+                          }}
+                          defaultValue={firstName}
                           data-cy="update-profile-section-first-name-input"
                           placeholder="e.g. John"
                           className="border-blackS font-instrumentSans text-blackM shadow-purpleH h-12 items-center rounded-lg border p-4 text-[16px] md:w-[413px]"
@@ -419,6 +456,10 @@ export default function DashboardMainScreen() {
                           Last name*
                         </label>
                         <input
+                          onChange={(e) => {
+                            dispatch(setLastName(e.target.value))
+                          }}
+                          defaultValue={lastName}
                           data-cy="update-profile-section-last-name-input"
                           placeholder="e.g. Appleseed"
                           className="border-blackS font-instrumentSans text-blackM shadow-purpleH h-12 items-center rounded-lg border p-4 text-[16px] md:w-[413px]"
@@ -433,6 +474,10 @@ export default function DashboardMainScreen() {
                           Email
                         </label>
                         <input
+                          onChange={(e) => {
+                            dispatch(setEmail(e.target.value))
+                          }}
+                          defaultValue={email}
                           data-cy="update-profile-section-email-input"
                           placeholder="e.g. email@example.com"
                           className="border-blackS font-instrumentSans text-blackM shadow-purpleH h-12 items-center rounded-lg border p-4 text-[16px] md:w-[413px]"

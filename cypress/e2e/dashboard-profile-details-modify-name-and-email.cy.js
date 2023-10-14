@@ -11,7 +11,7 @@ describe('Profile Editing and Verification', () => {
 
     cy.get('[data-cy="update-profile-section-first-name-input"]')
       .clear()
-      .type('New First Name')
+      .type('Mihai')
 
     cy.get('[data-cy="profile-view-name-placeholder"]').should(
       'include.text',
@@ -20,7 +20,7 @@ describe('Profile Editing and Verification', () => {
 
     cy.get('[data-cy="update-profile-section-last-name-input"]')
       .clear()
-      .type('New First Name')
+      .type('Maxim')
 
     cy.get('[data-cy="profile-view-name-placeholder"]').should(
       'include.text',

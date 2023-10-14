@@ -21,6 +21,9 @@ const initialLinks = [
   // },
 ]
 const initialState = {
+  email: '',
+  firstName: '',
+  lastName: '',
   links: initialLinks,
   base64ProfileImage: '',
 }
@@ -34,9 +37,26 @@ export const profileSlice = createSlice({
     setBase64ProfileImage: (state, action) => {
       state.base64ProfileImage = action.payload
     },
+
+    setFirstName: (state, action) => {
+      state.firstName = action.payload
+    },
+
+    setLastName: (state, action) => {
+      state.lastName = action.payload
+    },
+    setEmail: (state, action) => {
+      state.email = action.payload
+    },
   },
 })
 
-export const { setLinks, setBase64ProfileImage } = profileSlice.actions
+export const {
+  setLinks,
+  setBase64ProfileImage,
+  setFirstName,
+  setLastName,
+  setEmail,
+} = profileSlice.actions
 
 export default profileSlice.reducer

@@ -59,7 +59,7 @@ export const platformData = {
     key: 'frontendmentor',
     name: 'Frontend Mentor',
     dataId: 'link-card-platform-option-frontend-mentor',
-    exampleLink: 'https://',
+    exampleLink: 'https://www.frontendmentor.com/profile/johnappleseed',
     icon: <IconFrontendMentor />,
     profileView: {
       bg: '#FFFFFF',
@@ -72,7 +72,7 @@ export const platformData = {
     key: 'twitter',
     name: 'Twitter',
     dataId: 'link-card-platform-option-twitter',
-    exampleLink: 'https://',
+    exampleLink: 'https://twitter.com/johnappleseed',
     icon: <IconTwitter />,
     profileView: {
       bg: '#43B7E9',
@@ -83,7 +83,7 @@ export const platformData = {
     key: 'linkedin',
     name: 'LinkedIn',
     dataId: 'link-card-platform-option-linkedin',
-    exampleLink: 'https://',
+    exampleLink: 'https://www.linkedin.com/in/johnappleseed',
     icon: <IconLinkedin />,
     profileView: {
       bg: '#2D68FF',
@@ -94,7 +94,7 @@ export const platformData = {
     key: 'youtube',
     name: 'YouTube',
     dataId: 'link-card-platform-option-youtube',
-    exampleLink: 'https://',
+    exampleLink: 'https://www.youtube.com/user/johnappleseed',
     icon: <IconYouTube />,
     profileView: {
       bg: '#EE3939',
@@ -105,7 +105,7 @@ export const platformData = {
     key: 'facebook',
     name: 'Facebook',
     dataId: 'link-card-platform-option-facebook',
-    exampleLink: 'https://',
+    exampleLink: 'https://www.facebook.com/johnappleseed',
     icon: <IconFacebook />,
     profileView: {
       bg: '#2442AC',
@@ -116,7 +116,7 @@ export const platformData = {
     key: 'twitch',
     name: 'Twitch',
     dataId: 'link-card-platform-option-twitch',
-    exampleLink: 'https://',
+    exampleLink: 'https://www.twitch.tv/johnappleseed',
     icon: <IconTwitch />,
     profileView: {
       bg: '#EE3FC8',
@@ -127,7 +127,7 @@ export const platformData = {
     key: 'devto',
     name: 'Dev.to',
     dataId: 'link-card-platform-option-devto',
-    exampleLink: 'https://',
+    exampleLink: 'https://dev.to/johnappleseed',
     icon: <IconDevto />,
     profileView: {
       bg: '#333333',
@@ -138,7 +138,7 @@ export const platformData = {
     key: 'codewars',
     name: 'Codewars',
     dataId: 'link-card-platform-option-codewars',
-    exampleLink: 'https://',
+    exampleLink: 'https://www.codewars.com/users/johnappleseed',
     icon: <IconCodewars />,
     profileView: {
       bg: '#8A1A50',
@@ -149,7 +149,7 @@ export const platformData = {
     key: 'codepen',
     name: 'Codepen',
     dataId: 'link-card-platform-option-codepen',
-    exampleLink: 'https://',
+    exampleLink: 'https://codepen.io/johnappleseed',
     icon: <IconCodepen />,
     profileView: {
       bg: '#633CFF',
@@ -160,7 +160,7 @@ export const platformData = {
     key: 'freecodecamp',
     name: 'freeCodeCamp',
     dataId: 'link-card-platform-option-freecodecamp',
-    exampleLink: 'https://',
+    exampleLink: 'https://www.freecodecamp.org/johnappleseed',
     icon: <IconFreecodecamp />,
     profileView: {
       bg: '#302267',
@@ -171,7 +171,7 @@ export const platformData = {
     key: 'gitlab',
     name: 'GitLab',
     dataId: 'link-card-platform-option-gitlab',
-    exampleLink: 'https://',
+    exampleLink: 'https://gitlab.com/johnappleseed',
     icon: <IconGitlab />,
     profileView: {
       bg: '#EB4925',
@@ -182,7 +182,7 @@ export const platformData = {
     key: 'hashnode',
     name: 'Hashnode',
     dataId: 'link-card-platform-option-hashnode',
-    exampleLink: 'https://',
+    exampleLink: 'https://hashnode.com/@johnappleseed',
     icon: <IconHashnode />,
     profileView: {
       bg: '#0330D1',
@@ -193,7 +193,7 @@ export const platformData = {
     key: 'stackoverflow',
     name: 'Stack Overflow',
     dataId: 'link-card-platform-option-stackoverflow',
-    exampleLink: 'https://',
+    exampleLink: 'https://stackoverflow.com/users/123456/johnappleseed',
     icon: <IconStackoverflow />,
     profileView: {
       bg: '#EC7100',
