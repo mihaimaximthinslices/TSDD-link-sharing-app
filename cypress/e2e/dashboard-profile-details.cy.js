@@ -7,7 +7,7 @@ describe('dashboard-start view', () => {
       cy.visit('http://localhost:3000/dashboard')
       cy.get('[data-cy="nav-profile-section-button"]').click()
 
-      cy.contains('Profile details title').should('be.visible')
+      cy.contains('Profile Details').should('be.visible')
 
       cy.contains(
         'Add your details to create a personal touch to your profile.',

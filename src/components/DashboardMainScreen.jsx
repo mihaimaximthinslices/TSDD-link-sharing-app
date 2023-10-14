@@ -260,7 +260,7 @@ export default function DashboardMainScreen() {
 
           {selectedDashboardSection ===
             dashboardSections.updateProfileDetails && (
-            <div className="w-full h-full bg-whiteM flex flex-col grow">
+            <div className="w-full h-full bg-whiteM flex flex-col grow max-h-[960px]">
               <div className="w-full h-full p-4 md:pb-6 md:pt-2 bg-whiteM flex flex-col grow 1xl:p-0 1xl:pb-6 1xl:pt-2">
                 <div className="w-full h-full bg-white p-6 flex flex-col grow rounded-xl items-center md:p-10">
                   <div className="flex flex-col gap-2 w-full pb-10">
@@ -269,7 +269,7 @@ export default function DashboardMainScreen() {
                         data-cy="update-profile-details-section-title"
                         className="font-instrumentSans font-semibold text-[24px] text-blackH"
                       >
-                        Profile details
+                        Profile Details
                       </h1>
                     </div>
                     <div className="w-full flex justify-start">
@@ -282,54 +282,89 @@ export default function DashboardMainScreen() {
                       </p>
                     </div>
                   </div>
-                  <div className="flex flex-col gap-6">
-                    <div className="p-4 bg-whiteM w-full flex flex-col gap-4">
-                      <p className="font-instrumentSans font-normal text-[16px] text-blackM ">
-                        Profile picture
-                      </p>
-                      <div className=" w-[193px] h-[193px] bg-purpleS rounded-xl flex flex-col items-center justify-center">
-                        <div className="flex flex-col gap-2 w-full items-center">
-                          <IconUploadImage />
-                          <p className="font-instrumentSans font-normal text-[16px] text-purpleH">
-                            + Upload Image
+                  <div className="flex flex-col gap-6 w-full pb-6">
+                    <div className="p-5 bg-whiteM w-full flex flex-col gap-4 rounded-md">
+                      <div className="flex flex-col gap-4 md:flex-row">
+                        <div className="flex flex-col items-start justify-center w-[240px]">
+                          <p className="font-instrumentSans font-normal text-[16px] text-blackM">
+                            Profile picture
                           </p>
                         </div>
+                        <div className="flex gap-6">
+                          <div className=" w-[193px] h-[193px] bg-purpleS rounded-xl flex flex-col items-center justify-center">
+                            <div
+                              data-cy="update-profile-section-image-upload-zone"
+                              className="flex flex-col gap-2 w-full items-center"
+                            >
+                              <IconUploadImage />
+                              <p className="font-instrumentSans font-normal text-[16px] text-purpleH">
+                                + Upload Image
+                              </p>
+                            </div>
+                          </div>
+                          <div className="mt-2 hidden md:flex flex-col md:items-center md:justify-center">
+                            <p className="font-instrumentSans font-normal text-[12px] text-blackM md:max-w-[215px]">
+                              Image must be below 1024x1024px. Use PNG or JPG
+                              format.
+                            </p>
+                          </div>
+                        </div>
                       </div>
-                      <p className="font-instrumentSans font-normal text-[12px] text-blackM">
-                        Image must be below 1024x1024px. Use PNG or JPG format.
-                      </p>
                     </div>
-                    <div className="p-5 bg-whiteM w-full flex flex-col gap-3">
-                      <div className="flex flex-col gap-1">
-                        <label className="text-blackH font-instrumentSans text-[12px]">
+                    <div className="p-5 bg-whiteM w-full flex flex-col gap-3 rounded-md">
+                      <div className="flex flex-col gap-1 md:flex-row md:justify-between md:items-center">
+                        <label
+                          data-cy="update-profile-section-first-name-label"
+                          className="text-blackH font-instrumentSans text-[12px] md:text-[16px] md:text-blackM"
+                        >
                           First name*
                         </label>
                         <input
-                          className="'border-blackS font-instrumentSans text-blackM shadow-purpleH h-12 items-center rounded-lg border p-4 text-[16px]"
+                          data-cy="update-profile-section-first-name-input"
+                          placeholder="e.g. John"
+                          className="border-blackS font-instrumentSans text-blackM shadow-purpleH h-12 items-center rounded-lg border p-4 text-[16px] md:w-[413px]"
                           type="text"
                         ></input>
                       </div>
-                      <div className="flex flex-col gap-1">
-                        <label className="text-blackH font-instrumentSans text-[12px]">
+                      <div className="flex flex-col gap-1 md:flex-row md:justify-between md:items-center">
+                        <label
+                          data-cy="update-profile-section-last-name-label"
+                          className="text-blackH font-instrumentSans text-[12px] md:text-[16px] md:text-blackM"
+                        >
                           Last name*
                         </label>
                         <input
-                          className="'border-blackS font-instrumentSans text-blackM shadow-purpleH h-12 items-center rounded-lg border p-4 text-[16px]"
+                          data-cy="update-profile-section-last-name-input"
+                          placeholder="e.g. Appleseed"
+                          className="border-blackS font-instrumentSans text-blackM shadow-purpleH h-12 items-center rounded-lg border p-4 text-[16px] md:w-[413px]"
                           type="text"
                         ></input>
                       </div>
-                      <div className="flex flex-col gap-1">
-                        <label className="text-blackH font-instrumentSans text-[12px]">
+                      <div className="flex flex-col gap-1 md:flex-row md:justify-between md:items-center">
+                        <label
+                          data-cy="update-profile-section-email-label"
+                          className="text-blackH font-instrumentSans text-[12px] md:text-[16px] md:text-blackM"
+                        >
                           Email
                         </label>
                         <input
-                          className="'border-blackS font-instrumentSans text-blackM shadow-purpleH h-12 items-center rounded-lg border p-4 text-[16px]"
+                          data-cy="update-profile-section-email-input"
+                          placeholder="e.g. email@example.com"
+                          className="border-blackS font-instrumentSans text-blackM shadow-purpleH h-12 items-center rounded-lg border p-4 text-[16px] md:w-[413px]"
                           type="text"
                         ></input>
                       </div>
                     </div>
                   </div>
-                  <div className="w-full p-4 flex justify-center bg-white rounded-b-xl">
+                </div>
+                <div className="w-full">
+                  <div
+                    className="w-full bg-blackS"
+                    style={{
+                      height: '1px',
+                    }}
+                  ></div>
+                  <div className="w-full p-4 md:p-6 md:pr-10 flex justify-center bg-white rounded-b-xl md:justify-end">
                     <button
                       data-cy="customize-links-section-save-button"
                       className={clsx(
