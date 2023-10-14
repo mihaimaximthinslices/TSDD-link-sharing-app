@@ -2,13 +2,13 @@ import IllustrationPhoneMockup from '../svg/illustration-phone-mockup'
 import { useSelector } from 'react-redux'
 import LinkCard, { availablePlatforms, platformData } from './LinkCard'
 import { useDispatch } from 'react-redux'
-import { setLinks } from '../store/ProfileReducer'
+import { setBase64ProfileImage, setLinks } from '../store/ProfileReducer'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { GetStartedTip } from './GetStartedTip'
 import { v4 as uuidv4 } from 'uuid'
 import { clsx } from 'clsx'
 import { IconArrowRight } from '../svg/icon-arrow-right'
-import { useContext } from 'react'
+import { useContext, useRef } from 'react'
 import {
   dashboardSections,
   NavigationContext,
@@ -66,7 +66,9 @@ export default function DashboardMainScreen() {
   const selectedDashboardSection =
     useContext(NavigationContext).navigation.dashboardSection
 
-  const links = useSelector((state) => state.profile.links)
+  const { links, base64ProfileImage } = useSelector((state) => state.profile)
+
+  const uploadImageInputRef = useRef()
 
   const dispatch = useDispatch()
 
@@ -78,6 +80,40 @@ export default function DashboardMainScreen() {
 
   while (profileViewLinks.length < 5) {
     profileViewLinks.push({})
+  }
+
+  const handleSelectProfileImage = (event) => {
+    const file = event.target.files[0]
+
+    if (file) {
+      if (file.type === 'image/jpeg' || file.type === 'image/png') {
+        const reader = new FileReader()
+
+        let base64Image
+
+        reader.onload = function (e) {
+          base64Image = e.target.result
+
+          const img = new Image()
+          img.src = base64Image
+          img.onload = function () {
+            if (img.width <= 1024 && img.height <= 1024) {
+              dispatch(setBase64ProfileImage(base64Image))
+            } else {
+              alert('Image dimensions should be below 1024x1024 pixels.')
+              uploadImageInputRef.current.value = ''
+
+              base64Image = ''
+            }
+          }
+        }
+
+        reader.readAsDataURL(file)
+      } else {
+        alert('Please upload a JPG or PNG image below 1024x1024 pixels.')
+        uploadImageInputRef.value = ''
+      }
+    }
   }
 
   const onDragEnd = (result) => {
@@ -125,10 +161,23 @@ export default function DashboardMainScreen() {
             <div className="pt-24 pl-[115px]">
               <IllustrationPhoneMockup />
               <div className="flex flex-col items-center justify-center  w-full h-full absolute top-[53px] right-[12px]">
-                <div
-                  className="w-[96px] h-[96px] rounded-full z-10 bg-grayH"
-                  data-cy="nav-customize-links-profile-picture-placeholder"
-                ></div>
+                {base64ProfileImage ? (
+                  <div className="w-[100px] h-[100px] rounded-full z-10 bg-grayH border-purpleH border-4 flex-col items-center justify-center p-[1px]">
+                    <div
+                      className="w-full h-full rounded-full z-10 bg-grayH "
+                      data-cy="nav-customize-links-profile-picture-placeholder"
+                      style={{
+                        background: `url(${base64ProfileImage}) center/cover no-repeat`,
+                      }}
+                    ></div>
+                  </div>
+                ) : (
+                  <div
+                    className="w-[96px] h-[96px] rounded-full z-10 bg-grayH"
+                    data-cy="nav-customize-links-profile-picture-placeholder"
+                  ></div>
+                )}
+
                 <div
                   data-cy="nav-customize-links-profile-name-placeholder"
                   className="z-10 w-[160px] h-[16px] rounded-xl mt-[26px] bg-grayH"
@@ -153,7 +202,7 @@ export default function DashboardMainScreen() {
         </div>
         <div className="grow max-w-[808px]">
           {selectedDashboardSection === dashboardSections.customizeLinks && (
-            <div className="w-full h-full bg-whiteM flex flex-col grow">
+            <div className="w-full min-h-[864px] bg-whiteM flex flex-col grow">
               <div className="w-full h-full p-4 md:pb-6 md:pt-2 bg-whiteM flex flex-col grow 1xl:p-0 1xl:pb-6 1xl:pt-2">
                 <div className="w-full h-full bg-white p-6 flex flex-col grow rounded-xl items-center md:p-10">
                   <div className="flex flex-col gap-2 w-full">
@@ -291,11 +340,24 @@ export default function DashboardMainScreen() {
                           </p>
                         </div>
                         <div className="flex gap-6">
-                          <div className=" w-[193px] h-[193px] bg-purpleS rounded-xl flex flex-col items-center justify-center">
+                          <div
+                            onClick={() => {
+                              uploadImageInputRef.current.click()
+                            }}
+                            className="w-[193px] h-[193px] bg-purpleS rounded-xl flex flex-col items-center justify-center cursor-pointer"
+                          >
                             <div
                               data-cy="update-profile-section-image-upload-zone"
                               className="flex flex-col gap-2 w-full items-center"
                             >
+                              <input
+                                ref={uploadImageInputRef}
+                                onChange={handleSelectProfileImage}
+                                type="file"
+                                id="imageInput"
+                                className="w-0 h-0"
+                                accept=".jpg, .jpeg, .png"
+                              />
                               <IconUploadImage />
                               <p className="font-instrumentSans font-normal text-[16px] text-purpleH">
                                 + Upload Image
