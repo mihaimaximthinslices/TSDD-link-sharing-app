@@ -28,7 +28,7 @@ describe('Image Upload in Profile Details Section', () => {
         )
       })
 
-      cy.wait(30000)
+      cy.wait(2000)
 
       cy.get('[data-cy="nav-customize-links-profile-picture-placeholder"]')
         .invoke('attr', 'style')

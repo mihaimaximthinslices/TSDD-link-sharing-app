@@ -25,7 +25,6 @@ import {
   NavigationContext,
 } from '../store/NavigationContext'
 import { IconUploadImage, IconUploadImageWhite } from '../svg/icon-upload-image'
-import { IconHashnode } from '../svg/icon-hashnode'
 import IconChangesSaved from '../svg/icon-changes-saved'
 
 export function LinkDrawer({ platform, link }) {
@@ -101,7 +100,11 @@ export default function DashboardMainScreen() {
 
   const profileViewLinks = copyObj(links)
 
-  while (profileViewLinks.length < 5) {
+  const diplayLinkPlaceholders =
+    profileViewLinks.length === 0 ||
+    selectedDashboardSection === dashboardSections.customizeLinks
+
+  while (profileViewLinks.length < 5 && diplayLinkPlaceholders) {
     profileViewLinks.push({})
   }
 
@@ -272,62 +275,67 @@ export default function DashboardMainScreen() {
           <div className="relative">
             <div className="pt-24 pl-[115px]">
               <IllustrationPhoneMockup />
-              <div className="flex flex-col items-center justify-center  w-full h-full absolute top-[53px] right-[12px]">
-                {base64ProfileImage ? (
-                  <div className="w-[100px] h-[100px] rounded-full z-10 bg-grayH border-purpleH border-4 flex-col items-center justify-center p-[1px]">
+              <div className="w-full h-full absolute top-[160px] right-[12px] flex flex-col items-center">
+                <div className="flex flex-col items-center justify-center">
+                  {base64ProfileImage ? (
+                    <div className="w-[100px] h-[100px] rounded-full z-10 bg-grayH border-purpleH border-4 flex-col items-center justify-center p-[1px]">
+                      <div
+                        className="w-full h-full rounded-full z-10 bg-grayH "
+                        data-cy="nav-customize-links-profile-picture-placeholder"
+                        style={{
+                          background: `url(${base64ProfileImage}) center/cover no-repeat`,
+                        }}
+                      ></div>
+                    </div>
+                  ) : (
                     <div
-                      className="w-full h-full rounded-full z-10 bg-grayH "
+                      className="w-[96px] h-[96px] rounded-full z-10 bg-grayH"
                       data-cy="nav-customize-links-profile-picture-placeholder"
-                      style={{
-                        background: `url(${base64ProfileImage}) center/cover no-repeat`,
-                      }}
                     ></div>
-                  </div>
-                ) : (
-                  <div
-                    className="w-[96px] h-[96px] rounded-full z-10 bg-grayH"
-                    data-cy="nav-customize-links-profile-picture-placeholder"
-                  ></div>
-                )}
+                  )}
 
-                <div
-                  data-cy="profile-view-name-placeholder"
-                  className={clsx(
-                    'z-10 min-w-[160px] h-[16px]  mt-[26px] flex items-center justify-center',
-                    (firstName && firstName.length) ||
-                      (lastName && lastName.length)
-                      ? 'bg-white'
-                      : 'bg-grayH rounded-xl',
-                  )}
-                >
-                  <div className="flex justify-center w-full max-w-[260px] overflow-x-scroll gap-1">
-                    <p className="font-instrumentSans font-semibold text-[16px] text-blackH">
-                      {firstName}
-                    </p>
-                    <p className="font-instrumentSans font-semibold text-[16px] text-blackH">
-                      {lastName}
-                    </p>
-                  </div>
-                </div>
-                <div
-                  data-cy="profile-view-email-placeholder"
-                  className={clsx(
-                    'z-10 min-w-[72px] h-[8px] rounded-xl mt-[13px]',
-                    email && email.length ? 'bg-white' : 'bg-grayH rounded-xl',
-                  )}
-                >
-                  {email && email.length > 0 && (
-                    <div className="flex justify-center items-center max-w-[260px] overflow-x-scroll">
-                      <p className="font-instrumentSans font-normal text-[14px] text-blackM">
-                        {email}
+                  <div
+                    data-cy="profile-view-name-placeholder"
+                    className={clsx(
+                      'z-10 min-w-[160px] h-[16px]  mt-[26px] flex items-center justify-center',
+                      (firstName && firstName.length) ||
+                        (lastName && lastName.length)
+                        ? 'bg-white'
+                        : 'bg-grayH rounded-xl',
+                    )}
+                  >
+                    <div className="flex justify-center w-full max-w-[260px] overflow-x-scroll gap-1">
+                      <p className="font-instrumentSans font-semibold text-[16px] text-blackH">
+                        {firstName}
+                      </p>
+                      <p className="font-instrumentSans font-semibold text-[16px] text-blackH">
+                        {lastName}
                       </p>
                     </div>
-                  )}
+                  </div>
+                  <div
+                    data-cy="profile-view-email-placeholder"
+                    className={clsx(
+                      'z-10 min-w-[72px] h-[8px] rounded-xl mt-[13px]',
+                      email && email.length
+                        ? 'bg-white'
+                        : 'bg-grayH rounded-xl',
+                    )}
+                  >
+                    {email && email.length > 0 && (
+                      <div className="flex justify-center items-center max-w-[260px] overflow-x-scroll">
+                        <p className="font-instrumentSans font-normal text-[14px] text-blackM">
+                          {email}
+                        </p>
+                      </div>
+                    )}
+                  </div>
                 </div>
+
                 <div className="flex flex-col mt-[56px] gap-5">
                   <div
                     data-cy="profile-view-link-container"
-                    className="flex flex-col gap-5 max-h-[300px] overflow-y-scroll min-w-[275px] items-center"
+                    className="flex flex-col gap-5 h-[300px] overflow-y-scroll min-w-[275px] items-center"
                   >
                     {profileViewLinks.map((link, index) => {
                       return <LinkDrawer key={uuidv4()} {...link} />

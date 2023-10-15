@@ -17,12 +17,10 @@ describe('dashboard-start view', () => {
 
     it('should display the dashboard start view', () => {
       cy.visit('http://localhost:3000/dashboard')
-
+      cy.viewport(1600, 800)
       cy.get('[data-cy="customize-links-section-title"]').should('be.visible')
       cy.get('[data-cy="customize-links-section-info"]').should('be.visible')
-      cy.get('[data-cy="customize-links-section-add-link-button"]').should(
-        'be.visible',
-      )
+      cy.get('[data-cy="profile-view-name-placeholder"]').should('be.visible')
       cy.get(
         '[data-cy="customize-links-section-get-started-ilustration"]',
       ).should('be.visible')
@@ -38,18 +36,12 @@ describe('dashboard-start view', () => {
       cy.get('[data-cy="nav-profile-section-button"]').should('be.visible')
       cy.get('[data-cy="nav-preview-section-button"]').should('be.visible')
 
-      // Ensure the illustration on a large screen
-      cy.viewport(1600, 800)
       cy.get(
         '[data-cy="nav-customize-links-profile-picture-placeholder"]',
       ).should('be.visible')
-      cy.get('[data-cy="nav-customize-links-profile-name-placeholder"]').should(
-        'be.visible',
-      )
-      cy.get(
-        '[data-cy="nav-customize-links-profile-email-placeholder"]',
-      ).should('be.visible')
-      cy.get('[data-cy="nav-customize-links-profile-link-placeholder"]').should(
+      cy.get('[data-cy="profile-view-name-placeholder"]').should('be.visible')
+      cy.get('[data-cy="profile-view-email-placeholder"]').should('be.visible')
+      cy.get('[data-cy="profile-view-link-placeholder"]').should(
         'have.length',
         5,
       )
