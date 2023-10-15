@@ -1,7 +1,7 @@
 import { UuidGenerator } from '../../types/UUIDGenerator'
 import { DateGenerator } from '../../types/DateGenerator'
 import { UseCaseConstructor } from '../../types/UseCase'
-import { EntityNotFoundError, InvalidInputError } from '../../types/Errors'
+import { DuplicateEntityError, EntityNotFoundError, InvalidInputError } from '../../types/Errors'
 import { ProfileRepository, UserRepository } from '../../repositorties'
 import { Link, Profile } from '../../entities'
 
@@ -86,12 +86,18 @@ export const updateProfileUsecase: UseCaseConstructor<Params, Request, void> = (
   }
 
   async function validatePlatforms(links: Link[]) {
-    const hasInvalidPlatform = links.some((link) => {
+    const platformSet = new Set()
+    const invalidPlatform = links.find((link) => {
+      platformSet.add(link.platform)
       return !availablePlatforms.includes(link.platform)
     })
 
-    if (hasInvalidPlatform) {
-      throw new InvalidInputError('Invalid platform')
+    if (invalidPlatform) {
+      throw new InvalidInputError(`Not supported platform ${invalidPlatform}`)
+    }
+
+    if (platformSet.size !== links.length) {
+      throw new InvalidInputError('Duplicate platforms found')
     }
   }
 }

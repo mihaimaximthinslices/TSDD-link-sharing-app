@@ -102,54 +102,68 @@ describe('updateProfileUsecase', () => {
         dateGenerator.now.mockReturnValue(now)
       })
 
-      describe('given the profile already exists', () => {
-        const profile = profileBuilder.build({
-          id: 'profileId',
-          userId,
-        })
+      describe('given there are duplicate platforms', () => {
         beforeEach(() => {
-          profileRepository.getByUserId.mockResolvedValue(profile)
+          request.links[0].platform = request.links[1].platform
         })
-
-        test('should update the profile', async () => {
-          await runningTheUsecase()
-
-          expect(profileRepository.save).toHaveBeenCalledWith({
-            ...profile,
-            email,
-            firstName,
-            lastName,
-            links,
-            base64ProfileImage,
-            updatedAt: now,
-          })
-
-          expect(profileRepository.getByUserId).toBeCalledTimes(1)
-          expect(profileRepository.getByUserId).toBeCalledWith(userId)
+        test('should throw InvalidInputError', async () => {
+          await expect(runningTheUsecase).rejects.toThrow(InvalidInputError)
+        })
+        afterEach(() => {
+          request.links[0].platform = 'github'
         })
       })
 
-      describe('given the profile does not exist', () => {
-        beforeEach(() => {
-          profileRepository.getByUserId.mockResolvedValue(null)
-          uuidGenerator.next.mockReturnValue(newProfileId)
-        })
-        test('should create the profile', async () => {
-          await runningTheUsecase()
-
-          expect(profileRepository.save).toHaveBeenCalledWith({
-            id: newProfileId,
-            userId: userId,
-            email,
-            firstName,
-            lastName,
-            links,
-            base64ProfileImage,
-            createdAt: now,
-            updatedAt: now,
+      describe('given there are no repeating platforms', () => {
+        describe('given the profile already exists', () => {
+          const profile = profileBuilder.build({
+            id: 'profileId',
+            userId,
           })
-          expect(profileRepository.getByUserId).toBeCalledTimes(1)
-          expect(profileRepository.getByUserId).toBeCalledWith(userId)
+          beforeEach(() => {
+            profileRepository.getByUserId.mockResolvedValue(profile)
+          })
+
+          test('should update the profile', async () => {
+            await runningTheUsecase()
+
+            expect(profileRepository.save).toHaveBeenCalledWith({
+              ...profile,
+              email,
+              firstName,
+              lastName,
+              links,
+              base64ProfileImage,
+              updatedAt: now,
+            })
+
+            expect(profileRepository.getByUserId).toBeCalledTimes(1)
+            expect(profileRepository.getByUserId).toBeCalledWith(userId)
+          })
+        })
+
+        describe('given the profile does not exist', () => {
+          beforeEach(() => {
+            profileRepository.getByUserId.mockResolvedValue(null)
+            uuidGenerator.next.mockReturnValue(newProfileId)
+          })
+          test('should create the profile', async () => {
+            await runningTheUsecase()
+
+            expect(profileRepository.save).toHaveBeenCalledWith({
+              id: newProfileId,
+              userId: userId,
+              email,
+              firstName,
+              lastName,
+              links,
+              base64ProfileImage,
+              createdAt: now,
+              updatedAt: now,
+            })
+            expect(profileRepository.getByUserId).toBeCalledTimes(1)
+            expect(profileRepository.getByUserId).toBeCalledWith(userId)
+          })
         })
       })
     })

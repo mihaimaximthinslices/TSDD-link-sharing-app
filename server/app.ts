@@ -14,10 +14,10 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookies())
 
 app.use(
-    cors({
-      origin: process.env.HST,
-      credentials: true,
-    }),
+  cors({
+    origin: process.env.HST,
+    credentials: true,
+  }),
 )
 
 app.use(
@@ -33,7 +33,9 @@ app.use(
       }
       return
     },
-  }).unless({ path: ['/api/login', '/api/register'] }),
+  }).unless({
+    path: ['/api/login', '/api/register', { url: /^\/api\/public\/.*/, methods: ['GET'] }],
+  }),
 )
 
 app.use(function (err: Error, req: express.Request, res: express.Response, next: express.NextFunction) {

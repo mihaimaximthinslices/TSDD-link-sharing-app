@@ -9,7 +9,7 @@ export interface Profile {
   lastName: string
   email?: string
   links: Link[]
-  base64ProfileImage: string
+  base64ProfileImage?: string
   createdAt: Date
   updatedAt: Date
 }

@@ -17,3 +17,15 @@ model User {
   createdAt DateTime @map("createdAt")
   updatedAt DateTime @map("updatedAt")
 }
+
+model Profile {
+  id                 String   @id @map("_id")
+  userId             String
+  firstName          String
+  lastName           String
+  email              String?
+  base64ProfileImage String?
+  createdAt          DateTime
+  updatedAt          DateTime
+  links              String[]
+}
