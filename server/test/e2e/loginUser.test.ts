@@ -2,8 +2,7 @@ import { expect, describe, it, beforeEach, beforeAll } from 'vitest'
 import app from '../../../server/app'
 import request from 'supertest'
 
-describe.only('POST /api/login', () => {
-
+describe('POST /api/login', () => {
   describe('given the credentials do not have the right format', () => {
     const badCredentialsMissingPassword = {
       email: 'mihai.maxim@thinslices.com',
