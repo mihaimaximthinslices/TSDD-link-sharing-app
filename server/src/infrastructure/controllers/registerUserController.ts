@@ -4,7 +4,6 @@ import { prismaUserRepository } from '../repositories/PrismaUserRepository'
 import { createUserUsecase } from '../../domain/usecases/createUserUsecase'
 import { hashMethods, dateGenerator, uuidGenerator } from '../shared/'
 import jwt from 'jsonwebtoken'
-import { fa } from '@faker-js/faker'
 
 const userSchema = z.object({
   email: z.string().email('Invalid email format'),
