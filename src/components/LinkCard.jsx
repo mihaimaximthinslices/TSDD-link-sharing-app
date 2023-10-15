@@ -68,6 +68,7 @@ export const platformData = {
       arrow: <IconArrowRightBlack />,
     },
   },
+
   twitter: {
     key: 'twitter',
     name: 'Twitter',
@@ -359,7 +360,7 @@ export default function LinkCard({ id, platform, link, provided, snapshot }) {
               </div>
             )}
           </div>
-          <div className=" flex flex-col w-full gap-1 relative">
+          <div className="flex flex-col w-full gap-1 relative">
             <label className="font-instrumentSans text-[12px] text-blackH font-regular">
               Link
             </label>
