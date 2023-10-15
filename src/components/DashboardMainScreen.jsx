@@ -2,11 +2,16 @@ import IllustrationPhoneMockup from '../svg/illustration-phone-mockup'
 import { useSelector } from 'react-redux'
 import LinkCard, { availablePlatforms, platformData } from './LinkCard'
 import { useDispatch } from 'react-redux'
+import toast from 'react-hot-toast'
+import * as Yup from 'yup'
 import {
   setBase64ProfileImage,
   setEmail,
+  setEmailError,
   setFirstName,
+  setFirstNameError,
   setLastName,
+  setLastNameError,
   setLinks,
 } from '../store/ProfileReducer'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
@@ -20,6 +25,8 @@ import {
   NavigationContext,
 } from '../store/NavigationContext'
 import { IconUploadImage, IconUploadImageWhite } from '../svg/icon-upload-image'
+import { IconHashnode } from '../svg/icon-hashnode'
+import IconChangesSaved from '../svg/icon-changes-saved'
 
 export function LinkDrawer({ platform, link }) {
   const data = platformData[platform] ?? null
@@ -72,9 +79,17 @@ export default function DashboardMainScreen() {
   const selectedDashboardSection =
     useContext(NavigationContext).navigation.dashboardSection
 
-  const { links, base64ProfileImage, firstName, lastName, email } = useSelector(
-    (state) => state.profile,
-  )
+  const profile = useSelector((state) => state.profile)
+  const {
+    links,
+    base64ProfileImage,
+    firstName,
+    lastName,
+    email,
+    emailError,
+    firstNameError,
+    lastNameError,
+  } = profile
 
   const uploadImageInputRef = useRef()
 
@@ -160,6 +175,95 @@ export default function DashboardMainScreen() {
       )
     }
   }
+  function isValidURL(str) {
+    try {
+      new URL(str)
+      return true
+    } catch (error) {
+      return false
+    }
+  }
+  const handleSaveProfile = async () => {
+    const validNameRegex = /^[A-Za-z\s\-']+$/
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+
+    const validationSchema = Yup.object().shape({
+      links: Yup.array()
+        .of(
+          Yup.object().shape({
+            link: Yup.string()
+              .required("Can't be empty")
+              .test('is-valid-url', 'Please check the URL', (value) => {
+                return value ? isValidURL(value) : true
+              }),
+          }),
+        )
+        .min(1, 'Links array cannot be empty'),
+      firstName: Yup.string()
+        .required("Can't be empty")
+        .matches(validNameRegex, 'Invalid name format'),
+      lastName: Yup.string()
+        .required("Can't be empty")
+        .matches(validNameRegex, 'Invalid name format'),
+    })
+
+    const errors = {}
+    await validationSchema
+      .validate(profile, {
+        abortEarly: false,
+      })
+      .catch((err) => {
+        err.inner.forEach((error) => {
+          errors[error.path] = error.message
+        })
+      })
+
+    console.log(profile, errors)
+
+    const newLinks = links.map((link, index) => {
+      const newLink = { ...link }
+
+      const linkError = `links[${index}].link`
+
+      if (errors[linkError]) {
+        newLink.error = errors[linkError]
+      }
+      return newLink
+    })
+    dispatch(setLinks(newLinks))
+
+    if (errors.firstName) {
+      dispatch(setFirstNameError(errors.firstName))
+    }
+    if (errors.lastName) {
+      dispatch(setLastNameError(errors.lastName))
+    }
+
+    if (email && email.length > 0) {
+      if (!emailRegex.test(email)) {
+        errors.email = 'Invalid email format'
+        dispatch(setEmailError('Invalid email format'))
+      }
+    }
+
+    if (!Object.keys(errors).length) {
+      toast('Your changes have been successfully saved!', {
+        className: 'save-changes-success-toast',
+        style: {
+          backgroundColor: '#333333',
+          border: '1px solid black',
+          color: '#FAFAFA',
+          minWidth: '420px',
+          paddingTop: '16px',
+          paddingBottom: '16px',
+          paddingLeft: '24px',
+          paddingRight: '24px',
+        },
+        icon: <IconChangesSaved />,
+        position: 'bottom-center',
+      })
+    }
+  }
 
   return (
     <div className="flex-grow flex">
@@ -190,7 +294,8 @@ export default function DashboardMainScreen() {
                   data-cy="profile-view-name-placeholder"
                   className={clsx(
                     'z-10 min-w-[160px] h-[16px]  mt-[26px] flex items-center justify-center',
-                    firstName.length || lastName.length
+                    (firstName && firstName.length) ||
+                      (lastName && lastName.length)
                       ? 'bg-white'
                       : 'bg-grayH rounded-xl',
                   )}
@@ -208,10 +313,10 @@ export default function DashboardMainScreen() {
                   data-cy="profile-view-email-placeholder"
                   className={clsx(
                     'z-10 min-w-[72px] h-[8px] rounded-xl mt-[13px]',
-                    email.length ? 'bg-white' : 'bg-grayH rounded-xl',
+                    email && email.length ? 'bg-white' : 'bg-grayH rounded-xl',
                   )}
                 >
-                  {email.length > 0 && (
+                  {email && email.length > 0 && (
                     <div className="flex justify-center items-center max-w-[260px] overflow-x-scroll">
                       <p className="font-instrumentSans font-normal text-[14px] text-blackM">
                         {email}
@@ -289,7 +394,14 @@ export default function DashboardMainScreen() {
                             >
                               {links.map(
                                 (
-                                  { id, order, linkNumber, platform, link },
+                                  {
+                                    id,
+                                    order,
+                                    linkNumber,
+                                    platform,
+                                    link,
+                                    error,
+                                  },
                                   index,
                                 ) => (
                                   <Draggable
@@ -303,6 +415,7 @@ export default function DashboardMainScreen() {
                                         snapshot={snapshot}
                                         id={order}
                                         link={link}
+                                        error={error}
                                         platform={platform}
                                       />
                                     )}
@@ -326,6 +439,8 @@ export default function DashboardMainScreen() {
                 <div className="w-full p-4 flex justify-center bg-white md:p-10 md:pt-6 md:pb-6 md:justify-end rounded-b-xl">
                   <button
                     data-cy="customize-links-section-save-button"
+                    disabled={links.length === 0}
+                    onClick={() => handleSaveProfile()}
                     className={clsx(
                       'font-instrumentSans text-[16px] font-semibold text-white w-full pt-[11px] pb-[11px] rounded-md md:w-[91px]',
                       links.length > 0
@@ -430,57 +545,106 @@ export default function DashboardMainScreen() {
                       </div>
                     </div>
                     <div className="p-5 bg-whiteM w-full flex flex-col gap-3 rounded-md">
-                      <div className="flex flex-col gap-1 md:flex-row md:justify-between md:items-center">
+                      <div className="flex flex-col gap-1 md:flex-row md:justify-between md:items-center relative">
                         <label
                           data-cy="update-profile-section-first-name-label"
                           className="text-blackH font-instrumentSans text-[12px] md:text-[16px] md:text-blackM"
                         >
                           First name*
                         </label>
+                        <div className="absolute right-4 bottom-[14px]">
+                          {firstNameError && (
+                            <span className="font-instrumentSans text-redH text-[12px]">
+                              {firstNameError}
+                            </span>
+                          )}
+                        </div>
                         <input
                           onChange={(e) => {
                             dispatch(setFirstName(e.target.value))
                           }}
+                          onFocus={() => {
+                            dispatch(setFirstNameError(null))
+                          }}
                           defaultValue={firstName}
                           data-cy="update-profile-section-first-name-input"
                           placeholder="e.g. John"
-                          className="border-blackS font-instrumentSans text-blackM shadow-purpleH h-12 items-center rounded-lg border p-4 text-[16px] md:w-[413px]"
+                          className={clsx(
+                            'border-blackS font-instrumentSans text-blackM shadow-purpleH h-12 items-center rounded-lg border p-4 text-[16px] md:w-[413px]',
+                            firstNameError &&
+                              'focus:outline-redH outline outline-redH outline-1',
+                            firstNameError &&
+                              'text-white md:text-blackM placeholder-white md:placeholder-gray-400',
+                          )}
                           type="text"
                         ></input>
                       </div>
-                      <div className="flex flex-col gap-1 md:flex-row md:justify-between md:items-center">
+                      <div className="flex flex-col gap-1 md:flex-row md:justify-between md:items-center relative">
                         <label
                           data-cy="update-profile-section-last-name-label"
                           className="text-blackH font-instrumentSans text-[12px] md:text-[16px] md:text-blackM"
                         >
                           Last name*
                         </label>
+                        <div className="absolute right-4 bottom-[14px]">
+                          {lastNameError && (
+                            <span className="font-instrumentSans text-redH text-[12px]">
+                              {lastNameError}
+                            </span>
+                          )}
+                        </div>
                         <input
                           onChange={(e) => {
                             dispatch(setLastName(e.target.value))
                           }}
+                          onFocus={() => {
+                            dispatch(setLastNameError(null))
+                          }}
                           defaultValue={lastName}
                           data-cy="update-profile-section-last-name-input"
                           placeholder="e.g. Appleseed"
-                          className="border-blackS font-instrumentSans text-blackM shadow-purpleH h-12 items-center rounded-lg border p-4 text-[16px] md:w-[413px]"
+                          className={clsx(
+                            'border-blackS font-instrumentSans text-blackM shadow-purpleH h-12 items-center rounded-lg border p-4 text-[16px] md:w-[413px]',
+                            lastNameError &&
+                              'focus:outline-redH outline outline-redH outline-1',
+                            lastNameError &&
+                              'text-white md:text-blackM placeholder-white md:placeholder-gray-400',
+                          )}
                           type="text"
                         ></input>
                       </div>
-                      <div className="flex flex-col gap-1 md:flex-row md:justify-between md:items-center">
+                      <div className="flex flex-col gap-1 md:flex-row md:justify-between md:items-center relative">
                         <label
                           data-cy="update-profile-section-email-label"
                           className="text-blackH font-instrumentSans text-[12px] md:text-[16px] md:text-blackM"
                         >
                           Email
                         </label>
+
+                        <div className="absolute right-4 bottom-[14px]">
+                          {emailError && (
+                            <span className="font-instrumentSans text-redH text-[12px]">
+                              {emailError}
+                            </span>
+                          )}
+                        </div>
                         <input
                           onChange={(e) => {
                             dispatch(setEmail(e.target.value))
                           }}
+                          onFocus={() => {
+                            dispatch(setEmailError(null))
+                          }}
                           defaultValue={email}
                           data-cy="update-profile-section-email-input"
                           placeholder="e.g. email@example.com"
-                          className="border-blackS font-instrumentSans text-blackM shadow-purpleH h-12 items-center rounded-lg border p-4 text-[16px] md:w-[413px]"
+                          className={clsx(
+                            'border-blackS font-instrumentSans text-blackM shadow-purpleH h-12 items-center rounded-lg border p-4 text-[16px] md:w-[413px]',
+                            emailError &&
+                              'focus:outline-redH outline outline-redH outline-1',
+                            emailError &&
+                              'text-white md:text-blackM placeholder-white md:placeholder-gray-400',
+                          )}
                           type="text"
                         ></input>
                       </div>
@@ -496,7 +660,9 @@ export default function DashboardMainScreen() {
                   ></div>
                   <div className="w-full p-4 md:p-6 md:pr-10 flex justify-center bg-white rounded-b-xl md:justify-end">
                     <button
+                      disabled={links.length === 0}
                       data-cy="customize-links-section-save-button"
+                      onClick={() => handleSaveProfile()}
                       className={clsx(
                         'font-instrumentSans text-[16px] font-semibold text-white w-full pt-[11px] pb-[11px] rounded-md md:w-[91px]',
                         links.length > 0

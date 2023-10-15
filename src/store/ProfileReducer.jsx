@@ -21,9 +21,9 @@ const initialLinks = [
   // },
 ]
 const initialState = {
-  email: '',
-  firstName: '',
-  lastName: '',
+  email: null,
+  firstName: null,
+  lastName: null,
   links: initialLinks,
   base64ProfileImage: '',
 }
@@ -39,14 +39,42 @@ export const profileSlice = createSlice({
     },
 
     setFirstName: (state, action) => {
-      state.firstName = action.payload
+      if (action.payload === '') {
+        state.firstName = null
+      } else {
+        state.firstName = action.payload
+      }
+    },
+
+    setFirstNameError: (state, action) => {
+      if (action.payload === null) {
+        delete state.firstNameError
+      }
+      state.firstNameError = action.payload
     },
 
     setLastName: (state, action) => {
-      state.lastName = action.payload
+      if (action.payload === '') {
+        state.lastName = null
+      } else {
+        state.lastName = action.payload
+      }
     },
+
+    setLastNameError: (state, action) => {
+      state.lastNameError = action.payload
+    },
+
     setEmail: (state, action) => {
-      state.email = action.payload
+      if (action.payload === '') {
+        state.email = null
+      } else {
+        state.email = action.payload
+      }
+    },
+
+    setEmailError: (state, action) => {
+      state.emailError = action.payload
     },
   },
 })
@@ -57,6 +85,9 @@ export const {
   setFirstName,
   setLastName,
   setEmail,
+  setEmailError,
+  setFirstNameError,
+  setLastNameError,
 } = profileSlice.actions
 
 export default profileSlice.reducer

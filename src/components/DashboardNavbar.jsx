@@ -75,13 +75,13 @@ export default function DashboardNavbar() {
         </div>
         <div
           data-cy="nav-preview-section-button"
-          className="pt-[10px] pb-[10px] pl-[16px] pr-[16px] border-purpleH border rounded-xl md:hidden"
+          className="pt-[10px] pb-[10px] pl-[16px] pr-[16px] border-purpleH border rounded-xl md:hidden hover:bg-purpleS cursor-pointer"
         >
           <IconPreviewHeader />
         </div>
         <div
           data-cy="nav-preview-section-button"
-          className="pt-[10px] pb-[10px] pl-[27px] pr-[27px] border-purpleH border rounded-xl flex justify-center hidden md:block"
+          className="pt-[10px] pb-[10px] pl-[27px] pr-[27px] border-purpleH border rounded-xl flex justify-center hidden md:block hover:bg-purpleS cursor-pointer"
         >
           <p className="text-purpleH">Preview</p>
         </div>

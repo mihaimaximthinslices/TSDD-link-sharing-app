@@ -6,10 +6,12 @@ describe('profile save functionality', () => {
 
     describe('given I don t have any links added', () => {
       it('the save button should be disabled', () => {
+        cy.visit('http://localhost:3000/dashboard')
+
         cy.get('[data-cy="customize-links-section-save-button"]').should(
           'have.attr',
           'disabled',
-          'true',
+          'disabled',
         )
       })
     })
@@ -50,7 +52,10 @@ describe('profile save functionality', () => {
 
         cy.get('[data-cy="customize-links-section-save-button"]').click()
 
-        cy.get('[data-cy="save-confirm-popup"]').should('be.visible')
+        cy.get('.save-changes-success-toast').should(
+          'contain',
+          'Your changes have been successfully saved!',
+        )
       })
     })
 
@@ -71,6 +76,7 @@ describe('profile save functionality', () => {
               .replace(/\s+/g, '-')}"]`,
           ).click()
         })
+
         platformOptionsInvalidUrl.forEach((platform) => {
           cy.get('[data-cy="customize-links-section-add-link-button"]').click()
           cy.get('[data-cy="link-card-platform"]').last().click()
@@ -84,19 +90,15 @@ describe('profile save functionality', () => {
 
         cy.get('[data-cy="customize-links-section-save-button"]').click()
 
-        cy.get('[data-cy="save-confirm-popup"]').should('not.be.visible')
+        cy.get('.save-changes-success-toast').should('not.exist')
 
         cy.contains("Can't be empty")
           .get("span:contains(Can't be empty)")
-          .should('have.length', 3)
-
-        cy.contains("Can't be empty")
-          .get("span:contains(Can't be empty)")
-          .should('have.length', 3)
+          .should('have.length', 2)
 
         cy.contains('Please check the URL')
           .get('span:contains(Please check the URL)')
-          .should('have.length', 3)
+          .should('have.length', 2)
       })
     })
   })

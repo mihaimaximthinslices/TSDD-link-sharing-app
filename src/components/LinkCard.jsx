@@ -204,7 +204,14 @@ export const platformData = {
 }
 
 const platformOptions = Object.keys(platformData)
-export default function LinkCard({ id, platform, link, provided, snapshot }) {
+export default function LinkCard({
+  id,
+  platform,
+  link,
+  provided,
+  snapshot,
+  error,
+}) {
   const { dataId, exampleLink, icon } = platformData[platform]
 
   const [showOptions, setShowOptions] = useState(false)
@@ -364,8 +371,15 @@ export default function LinkCard({ id, platform, link, provided, snapshot }) {
             <label className="font-instrumentSans text-[12px] text-blackH font-regular">
               Link
             </label>
-            <div className="absolute top-[38px] left-4">
+            <div className="absolute top-[40px] left-4">
               <IconLink />
+            </div>
+            <div className="relative">
+              {error && (
+                <span className="absolute font-instrumentSans text-redH text-[12px] top-5 right-4">
+                  {error}
+                </span>
+              )}
             </div>
             <input
               data-cy="link-card-link"
@@ -375,7 +389,24 @@ export default function LinkCard({ id, platform, link, provided, snapshot }) {
                 updateLinkURL(e)
               }}
               placeholder={selectedPlatform.exampleLink}
-              className="pt-3 pl-[40px] pr-4 pb-3 rounded-md border border-blackS font-instrumentSans text-[16px] text-blackH font-normal"
+              onFocus={() => {
+                const newLinks = links.map((pLink) => {
+                  const newLink = { ...pLink }
+
+                  if (newLink.platform === selectedPlatform.key) {
+                    delete newLink.error
+                  }
+
+                  return newLink
+                })
+                dispatch(setLinks(newLinks))
+              }}
+              className={clsx(
+                'pt-3 pl-[40px] pr-4 pb-3 rounded-md border border-blackS font-instrumentSans text-[16px] text-blackH font-normal',
+                error && 'focus:outline-redH outline outline-redH outline-1',
+                error &&
+                  'text-white md:text-blackM placeholder-white md:placeholder-blackM',
+              )}
             />
           </div>
         </div>
