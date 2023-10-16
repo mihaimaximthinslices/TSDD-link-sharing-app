@@ -365,7 +365,7 @@ export default function DashboardMainScreen() {
                         : 'bg-grayH rounded-xl',
                     )}
                   >
-                    <div className="flex justify-center w-full max-w-[260px] overflow-x-scroll gap-1">
+                    <div className="flex justify-center w-full max-w-[260px] overflow-x-hidden gap-1">
                       <p className="font-instrumentSans font-semibold text-[16px] text-blackH">
                         {firstName}
                       </p>
@@ -384,7 +384,7 @@ export default function DashboardMainScreen() {
                     )}
                   >
                     {email && email.length > 0 && (
-                      <div className="flex justify-center items-center max-w-[260px] overflow-x-scroll">
+                      <div className="flex justify-center items-center max-w-[260px] overflow-x-hidden">
                         <p className="font-instrumentSans font-normal text-[14px] text-blackM">
                           {email}
                         </p>

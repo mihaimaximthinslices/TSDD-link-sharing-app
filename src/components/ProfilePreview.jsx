@@ -136,7 +136,7 @@ export default function ProfilePreview() {
               {displayName && (
                 <div
                   data-cy="profile-page-name"
-                  className="flex justify-center w-full max-w-[260px] overflow-x-scroll gap-1"
+                  className="flex justify-center w-full max-w-[260px] overflow-x-hidden gap-1"
                 >
                   <p className="font-instrumentSans font-semibold text-[16px] text-blackH">
                     {firstName}
@@ -158,7 +158,7 @@ export default function ProfilePreview() {
                 {email && email.length > 0 && (
                   <div
                     data-cy="profile-page-email"
-                    className="flex justify-center items-center max-w-[260px] overflow-x-scroll"
+                    className="flex justify-center items-center max-w-[260px] overflow-x-hidden"
                   >
                     <p className="font-instrumentSans font-normal text-[14px] text-blackM">
                       {email}
