@@ -326,6 +326,21 @@ export default function DashboardMainScreen() {
         icon: <IconChangesSaved />,
         position: 'bottom-center',
       })
+    } else {
+      toast.error('Not all required fields are completed!', {
+        className: 'save-changes-success-toast',
+        style: {
+          backgroundColor: '#333333',
+          border: '1px solid black',
+          color: '#FAFAFA',
+          minWidth: '420px',
+          paddingTop: '16px',
+          paddingBottom: '16px',
+          paddingLeft: '24px',
+          paddingRight: '24px',
+        },
+        position: 'bottom-center',
+      })
     }
   }
 
