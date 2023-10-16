@@ -6,6 +6,7 @@ import imageSize from 'image-size'
 import { Request as JWTRequest } from 'express-jwt'
 import { updateProfileUsecase } from '../../domain/usecases/updateProfileUsecase'
 import { prismaProfileRepository } from '../repositories'
+import { Link } from '../../domain/entities'
 
 const LinkSchema = z.object({
   platform: z.string(),
@@ -84,7 +85,7 @@ export async function putUserProfileController(req: JWTRequest, res: Response) {
     userId: req.auth?.userId,
     firstName: profileData.firstName!,
     lastName: profileData.lastName!,
-    links: profileData.links!,
+    links: profileData.links as Link[],
     base64ProfileImage: profileData.base64ProfileImage,
     email: profileData.email,
   })
