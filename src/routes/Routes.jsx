@@ -32,6 +32,11 @@ const Routes = () => {
 
   const router = createBrowserRouter([
     {
+      path: '/',
+      element: <Navigate replace to="/dashboard" />,
+      errorElement: <h1>Page not found</h1>,
+    },
+    {
       path: '/register',
       element: <PublicRoute isAuth={isAuthenticated} />,
       children: [
