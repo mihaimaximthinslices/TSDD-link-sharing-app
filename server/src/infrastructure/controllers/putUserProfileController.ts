@@ -82,8 +82,11 @@ export async function putUserProfileController(req: JWTRequest, res: Response) {
 
   await usecase({
     userId: req.auth?.userId,
-    ...profileData,
-    firstName: profileData.firstName as string,
+    firstName: profileData.firstName!,
+    lastName: profileData.lastName!,
+    links: profileData.links!,
+    base64ProfileImage: profileData.base64ProfileImage,
+    email: profileData.email,
   })
 
   res.status(200).json({
