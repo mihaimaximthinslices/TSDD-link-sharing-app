@@ -1,31 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { v4 as uuidv4 } from 'uuid'
-const initialLinks = [
-  // {
-  //   order: 1,
-  //   id: 'link-1',
-  //   platform: 'github',
-  //   link: 'https://www.github.com/benwright',
-  // },
-  // {
-  //   order: 2,
-  //   id: 'link-2',
-  //   platform: 'youtube',
-  //   link: 'https://www.youtube.com/benwright',
-  // },
-  // {
-  //   order: 3,
-  //   id: 'link-3',
-  //   platform: 'facebook',
-  //   link: 'https://www.facebook.com/benwright',
-  // },
-]
+
 const initialState = {
+  id: null,
   email: null,
   firstName: null,
   lastName: null,
-  links: initialLinks,
-  base64ProfileImage: '',
+  links: [],
+  base64ProfileImage: null,
 }
 export const profileSlice = createSlice({
   name: 'profile',

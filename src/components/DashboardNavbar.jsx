@@ -7,6 +7,8 @@ import { useContext } from 'react'
 import { NavigationContext } from '../store/NavigationContext'
 import { dashboardSections } from '../store/NavigationContext'
 import { clsx } from 'clsx'
+import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 export default function DashboardNavbar() {
   const { setNavigation, navigation } = useContext(NavigationContext)
@@ -18,6 +20,10 @@ export default function DashboardNavbar() {
 
   const showProfileDetailsSection =
     dashboardSection === dashboardSections.updateProfileDetails
+
+  const { id } = useSelector((state) => state.profile)
+
+  const navigate = useNavigate()
 
   return (
     <div className="w-full md:p-4 sticky top-0 z-50">
@@ -80,6 +86,9 @@ export default function DashboardNavbar() {
           <IconPreviewHeader />
         </div>
         <div
+          onClick={() => {
+            navigate(`/profile/${id}`, { replace: false })
+          }}
           data-cy="nav-preview-section-button"
           className="pt-[10px] pb-[10px] pl-[27px] pr-[27px] border-purpleH border rounded-xl flex justify-center hidden md:block hover:bg-purpleS cursor-pointer"
         >

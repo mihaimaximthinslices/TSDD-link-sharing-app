@@ -7,6 +7,7 @@ import Login from '../pages/Login'
 import { AuthContext } from '../store/AuthContext'
 import axios from 'axios'
 import Dashboard from '../pages/Dashboard'
+import ProfilePreview from '../components/ProfilePreview'
 
 const Routes = () => {
   const { user, setUser } = useContext(AuthContext)
@@ -31,11 +32,6 @@ const Routes = () => {
 
   const router = createBrowserRouter([
     {
-      path: '/',
-      element: <Navigate replace to="/dashboard" />,
-      errorElement: <h1>Page not found</h1>,
-    },
-    {
       path: '/register',
       element: <PublicRoute isAuth={isAuthenticated} />,
       children: [
@@ -56,6 +52,11 @@ const Routes = () => {
           errorElement: <h1>Login error</h1>,
         },
       ],
+    },
+    {
+      path: '/profile/:profileId',
+      element: <ProfilePreview isAuth={isAuthenticated} />,
+      errorElement: <h1>ProfilePreview error</h1>,
     },
     {
       path: '/dashboard',

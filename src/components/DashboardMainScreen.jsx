@@ -35,14 +35,14 @@ export function LinkDrawer({ platform, link }) {
   return (
     <div
       data-cy="profile-view-link-placeholder"
-      className="z-10 w-[237px] min-h-[44px] rounded-md bg-grayH"
+      className="z-10 w-[237px] h-[44px] rounded-md bg-grayH"
     >
       {platform && (
         <a
           href={link}
           target={'_blank'}
           className={clsx(
-            'w-full h-full rounded-md flex items-center pl-4 pr-4 justify-between border shadow-sm',
+            'w-full h-[44px] rounded-md flex items-center pl-4 pr-4 justify-between border shadow-sm',
             link.length === 0 && 'pointer-events-none',
           )}
           style={{
@@ -78,17 +78,22 @@ export function LinkDrawer({ platform, link }) {
 const copyObj = (obj) => JSON.parse(JSON.stringify(obj))
 export default function DashboardMainScreen() {
   useEffect(() => {
-    axios.get('/profile').then((latestProfile) => {
-      const { profile } = latestProfile.data
-
-      dispatch(initProfile(profile))
-    })
+    axios
+      .get('/profile')
+      .then((latestProfile) => {
+        const { profile } = latestProfile.data
+        if (!id) {
+          dispatch(initProfile(profile))
+        }
+      })
+      .catch((err) => {})
   }, [])
   const selectedDashboardSection =
     useContext(NavigationContext).navigation.dashboardSection
 
   const profile = useSelector((state) => state.profile)
   const {
+    id,
     links,
     base64ProfileImage,
     firstName,
@@ -148,6 +153,10 @@ export default function DashboardMainScreen() {
         alert('Please upload a JPG or PNG image below 1024x1024 pixels.')
         uploadImageInputRef.value = ''
       }
+    }
+
+    if (!file) {
+      dispatch(setBase64ProfileImage(null))
     }
   }
 
@@ -230,8 +239,6 @@ export default function DashboardMainScreen() {
         })
       })
 
-    console.log(profile, errors)
-
     const newLinks = links.map((link, index) => {
       const newLink = { ...link }
 
@@ -280,7 +287,13 @@ export default function DashboardMainScreen() {
         }
       })
 
-      axios.put('/profile', cleanPayload)
+      await axios.put('/profile', cleanPayload)
+
+      const uploadedProfile = await axios.get('/profile')
+
+      if (!id) {
+        dispatch(initProfile(uploadedProfile.data.profile))
+      }
 
       toast('Your changes have been successfully saved!', {
         className: 'save-changes-success-toast',

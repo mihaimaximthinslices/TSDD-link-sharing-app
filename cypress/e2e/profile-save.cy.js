@@ -1,7 +1,7 @@
 describe('profile save functionality', () => {
   describe('given the user is logged in', () => {
     beforeEach(() => {
-      cy.login('mihai.maxim@thinslices.com', 'password1234')
+      cy.login('mihai.maxim+empty@thinslices.com', 'password1234')
     })
 
     describe('given I don t have any links added', () => {
@@ -50,7 +50,43 @@ describe('profile save functionality', () => {
           .clear()
           .type('Maxim')
 
+        cy.intercept('PUT', '/api/profile', {
+          statusCode: 200,
+        }).as('updateProfile')
+
+        cy.intercept('GET', '/api/profile', {
+          body: {
+            profile: {
+              base64ProfileImage:
+                'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEBLAEsAA',
+              createdAt: '2023-10-16T06:48:43.645Z',
+              email: 'mihai.maxim@thinslices.com',
+              firstName: 'Mihai',
+              id: '2c1ba19e-4340-4e64-ac56-68865ec31e0f',
+              lastName: 'Maxim',
+              links: [
+                { platform: 'youtube', link: 'https://www.youtube.com/' },
+                {
+                  platform: 'github',
+                  link: 'https://github.com/mihaimaximthinslices/tsdd-link-sharing-app',
+                },
+                {
+                  platform: 'linkedin',
+                  link: 'https://www.linkedin.com/in/mihai-maxim-1259bb218/',
+                },
+              ],
+              updatedAt: '2023-10-16T12:59:13.447Z',
+              userId: 'ccd2577c-ac94-4774-9e01-5950b7ddcff3',
+            },
+            statusCode: 200,
+          },
+        }).as('getProfile')
+
         cy.get('[data-cy="customize-links-section-save-button"]').click()
+
+        cy.wait('@updateProfile')
+
+        cy.wait('@getProfile')
 
         cy.get('.save-changes-success-toast').should(
           'contain',
