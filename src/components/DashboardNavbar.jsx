@@ -80,6 +80,9 @@ export default function DashboardNavbar() {
           </div>
         </div>
         <div
+          onClick={() => {
+            navigate(`/profile/${id}`, { replace: false })
+          }}
           data-cy="nav-preview-section-button"
           className="pt-[10px] pb-[10px] pl-[16px] pr-[16px] border-purpleH border rounded-xl md:hidden hover:bg-purpleS cursor-pointer"
         >

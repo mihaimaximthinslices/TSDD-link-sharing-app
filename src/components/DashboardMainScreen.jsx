@@ -571,7 +571,7 @@ export default function DashboardMainScreen() {
                             Profile picture
                           </p>
                         </div>
-                        <div className="flex gap-6">
+                        <div className="flex flex-col md:flex-row gap-6">
                           <div
                             onClick={() => {
                               uploadImageInputRef.current.click()
@@ -619,7 +619,7 @@ export default function DashboardMainScreen() {
                               )}
                             </div>
                           </div>
-                          <div className="mt-2 hidden md:flex flex-col md:items-center md:justify-center">
+                          <div className="md:flex flex-col md:items-center md:justify-center">
                             <p className="font-instrumentSans font-normal text-[12px] text-blackM md:max-w-[215px]">
                               Image must be below 1024x1024px. Use PNG or JPG
                               format.

@@ -67,7 +67,7 @@ export default function ProfilePreview() {
       <div className="w-full md:bg-purpleH min-h-[357px] rounded-b-3xl top-0 z-0">
         {isAuth && (
           <div className="w-full p-6">
-            <div className="w-full bg-white pl-2 pr-2 md:pl-6 md:pr-6 pt-4 md:pb-4 flex justify-around md:justify-between gap-4 rounded-xl">
+            <div className="w-full bg-white pl-2 pr-2 md:pl-6 md:pr-6 pt-4 md:pb-4 flex justify-center md:justify-between gap-6 rounded-xl">
               <div
                 data-cy="profile-page-back-to-editor"
                 onClick={() => {
