@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux'
 import toast from 'react-hot-toast'
 import * as Yup from 'yup'
 import {
+  initProfile,
   setBase64ProfileImage,
   setEmail,
   setEmailError,
@@ -19,13 +20,14 @@ import { GetStartedTip } from './GetStartedTip'
 import { v4 as uuidv4 } from 'uuid'
 import { clsx } from 'clsx'
 import { IconArrowRight } from '../svg/icon-arrow-right'
-import { useContext, useRef } from 'react'
+import { useContext, useEffect, useRef } from 'react'
 import {
   dashboardSections,
   NavigationContext,
 } from '../store/NavigationContext'
 import { IconUploadImage, IconUploadImageWhite } from '../svg/icon-upload-image'
 import IconChangesSaved from '../svg/icon-changes-saved'
+import axios from 'axios'
 
 export function LinkDrawer({ platform, link }) {
   const data = platformData[platform] ?? null
@@ -75,6 +77,13 @@ export function LinkDrawer({ platform, link }) {
 
 const copyObj = (obj) => JSON.parse(JSON.stringify(obj))
 export default function DashboardMainScreen() {
+  useEffect(() => {
+    axios.get('/profile').then((latestProfile) => {
+      const { profile } = latestProfile.data
+
+      dispatch(initProfile(profile))
+    })
+  }, [])
   const selectedDashboardSection =
     useContext(NavigationContext).navigation.dashboardSection
 
@@ -250,6 +259,29 @@ export default function DashboardMainScreen() {
     }
 
     if (!Object.keys(errors).length) {
+      const cleanLinks = links.map((dLink) => {
+        return {
+          link: dLink.link,
+          platform: dLink.platform,
+        }
+      })
+
+      const cleanPayload = {
+        firstName: profile.firstName,
+        lastName: profile.lastName,
+        email: profile.email,
+        links: cleanLinks,
+        base64ProfileImage: profile.base64ProfileImage,
+      }
+
+      Object.keys(cleanPayload).forEach((key) => {
+        if (cleanPayload[key] === null) {
+          delete cleanPayload[key]
+        }
+      })
+
+      axios.put('/profile', cleanPayload)
+
       toast('Your changes have been successfully saved!', {
         className: 'save-changes-success-toast',
         style: {

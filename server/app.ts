@@ -8,7 +8,7 @@ const app = express()
 import cors from 'cors'
 import cookies from 'cookie-parser'
 
-app.use(bodyParser.json())
+app.use(bodyParser.json({ limit: '5mb' }))
 app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use(cookies())
@@ -39,7 +39,6 @@ app.use(
 )
 
 app.use(function (err: Error, req: express.Request, res: express.Response, next: express.NextFunction) {
-  console.log(err)
   if (err.name === 'UnauthorizedError') {
     res.status(401).send({
       message: 'Unauthorized',

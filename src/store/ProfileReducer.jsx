@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-
+import { v4 as uuidv4 } from 'uuid'
 const initialLinks = [
   // {
   //   order: 1,
@@ -31,6 +31,24 @@ export const profileSlice = createSlice({
   name: 'profile',
   initialState,
   reducers: {
+    initProfile: (state, action) => {
+      let links = action.payload.links
+
+      delete action.payload.links
+
+      Object.keys(action.payload).forEach((key) => {
+        state[key] = action.payload[key]
+      })
+
+      links = links.map((link, index) => {
+        return {
+          ...link,
+          order: index + 1,
+          id: uuidv4(),
+        }
+      })
+      state.links = links
+    },
     setLinks: (state, action) => {
       state.links = action.payload
     },
@@ -80,6 +98,7 @@ export const profileSlice = createSlice({
 })
 
 export const {
+  initProfile,
   setLinks,
   setBase64ProfileImage,
   setFirstName,
