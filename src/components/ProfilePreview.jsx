@@ -77,33 +77,33 @@ export default function ProfilePreview() {
               >
                 <p className="text-purpleH">Back to editor</p>
               </div>
-              <div
-                data-cy="profile-page-share"
-                className="pt-[10px] pb-[10px] pl-[27px] pr-[27px] border-purpleH text-white rounded-xl flex justify-center bg-purpleH  cursor-pointer w-[160px] md:w-fit hover:bg-purpleM"
+              <CopyToClipboard
+                text={window.location.href}
+                onCopy={() =>
+                  toast('The link has been copied to your clipboard!', {
+                    className: 'copy-to-clipboard-toast',
+                    style: {
+                      backgroundColor: '#333333',
+                      border: '1px solid black',
+                      color: '#FAFAFA',
+                      minWidth: '420px',
+                      paddingTop: '16px',
+                      paddingBottom: '16px',
+                      paddingLeft: '24px',
+                      paddingRight: '24px',
+                    },
+                    icon: <IconLink />,
+                    position: 'bottom-center',
+                  })
+                }
               >
-                <CopyToClipboard
-                  text={window.location.href}
-                  onCopy={() =>
-                    toast('The link has been copied to your clipboard!', {
-                      className: 'copy-to-clipboard-toast',
-                      style: {
-                        backgroundColor: '#333333',
-                        border: '1px solid black',
-                        color: '#FAFAFA',
-                        minWidth: '420px',
-                        paddingTop: '16px',
-                        paddingBottom: '16px',
-                        paddingLeft: '24px',
-                        paddingRight: '24px',
-                      },
-                      icon: <IconLink />,
-                      position: 'bottom-center',
-                    })
-                  }
+                <div
+                  data-cy="profile-page-share"
+                  className="pt-[10px] pb-[10px] pl-[27px] pr-[27px] border-purpleH text-white rounded-xl flex justify-center bg-purpleH  cursor-pointer w-[160px] md:w-fit hover:bg-purpleM"
                 >
                   <p className="text-white">Share link</p>
-                </CopyToClipboard>
-              </div>
+                </div>
+              </CopyToClipboard>
             </div>
           </div>
         )}
