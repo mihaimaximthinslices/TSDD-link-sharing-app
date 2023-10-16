@@ -138,7 +138,23 @@ export default function DashboardMainScreen() {
             if (img.width <= 1024 && img.height <= 1024) {
               dispatch(setBase64ProfileImage(base64Image))
             } else {
-              alert('Image dimensions should be below 1024x1024 pixels.')
+              toast.error(
+                'Image dimensions should be below 1024x1024 pixels.',
+                {
+                  className: 'upload-image-failed-toast',
+                  style: {
+                    backgroundColor: '#333333',
+                    border: '1px solid black',
+                    color: '#FAFAFA',
+                    minWidth: '500px',
+                    paddingTop: '16px',
+                    paddingBottom: '16px',
+                    paddingLeft: '24px',
+                    paddingRight: '24px',
+                  },
+                  position: 'bottom-center',
+                },
+              )
               uploadImageInputRef.current.value = ''
 
               base64Image = ''
