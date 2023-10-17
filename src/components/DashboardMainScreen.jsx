@@ -588,7 +588,7 @@ export default function DashboardMainScreen() {
                                 onChange={handleSelectProfileImage}
                                 type="file"
                                 id="imageInput"
-                                className="w-0 h-0"
+                                className="hidden"
                                 accept=".jpg, .jpeg, .png"
                               />
                               <IconUploadImage />
